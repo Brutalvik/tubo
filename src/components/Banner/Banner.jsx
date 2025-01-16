@@ -1,13 +1,16 @@
 import React from "react";
-import bannerImage from "@assets/banner.jpg"; // Adjust the path as necessary
+import bannerImage from "@assets/banner.jpg";
+import Calendar from "@components/Calendar/Calendar";
 
 const Banner = () => {
   return (
     <div
-      className="w-full h-[200px] bg-cover bg-center flex justify-center items-center"
+      className="flex w-full h-[450px] bg-cover bg-center"
       style={{ backgroundImage: `url(${bannerImage})`, height: "450px" }}
     >
-      <h1 className="text-white text-2xl font-bold text-left">TUBO</h1>
+      <div className="flex justify-start items-center p-4">
+        <Calendar />
+      </div>
     </div>
   );
 };
