@@ -1,10 +1,8 @@
-import { Button, DateRangePicker } from "@nextui-org/react";
+import { Button, DateRangePicker, Input } from "@nextui-org/react";
 import { parseZonedDateTime } from "@internationalized/date";
-import { Input } from "@nextui-org/react";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
-import { useRef } from "react";
+import { useRef, useState, useMemo } from "react";
 import moment from "moment-timezone";
-import { useState } from "react";
 
 const Calendar = () => {
   const today =
@@ -16,13 +14,17 @@ const Calendar = () => {
       .add(3, "days") // Adds 3 days
       .format("YYYY-MM-DDTHH:mm:ss") + `[America/Los_Angeles]`;
 
-  const [dateRange, setDateRange] = useState({
-    start: parseZonedDateTime(today),
-    end: parseZonedDateTime(plusThreeDays),
-  });
   const [isCalenderOpen, setIsCalendarOpen] = useState(false);
+  const [search, setSearch] = useState({
+    address: "",
+    location: "",
+    dates: {
+      start: parseZonedDateTime(today),
+      end: parseZonedDateTime(plusThreeDays),
+    },
+  });
 
-  const libraries = ["places"];
+  const libraries = useMemo(() => ["places"], []);
   const inputRef = useRef();
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -31,11 +33,13 @@ const Calendar = () => {
     googleMapsClientId: process.env.REACT_APP_CLIENT_ID,
   });
 
-  console.log(isLoaded);
-
   const handleOnPlacesChanged = () => {
-    let address = inputRef.current.getPlaces();
-    console.log(address);
+    const address = inputRef.current.getPlaces();
+    setSearch({
+      ...search,
+      location: address[0]?.name || "",
+      address: address,
+    });
   };
 
   const handleDateChange = (range) => {
@@ -49,14 +53,19 @@ const Calendar = () => {
         .tz(range.end, "America/Los_Angeles")
         .format("YYYY-MM-DDTHH:mm:ss") + "[America/Los_Angeles]";
 
-    setDateRange({
-      start: parseZonedDateTime(formattedStart),
-      end: parseZonedDateTime(formattedEnd),
+    setSearch({
+      ...search,
+      dates: {
+        start: parseZonedDateTime(formattedStart),
+        end: parseZonedDateTime(formattedEnd),
+      },
     });
 
-    console.log("Formatted Start Date: ", formattedStart);
-    console.log("Formatted End Date: ", formattedEnd);
     setIsCalendarOpen(false);
+  };
+
+  const handleSearch = () => {
+    console.log(search);
   };
 
   return (
@@ -74,6 +83,10 @@ const Calendar = () => {
               type="text"
               className="w-full"
               placeholder=""
+              value={search.location}
+              onChange={(e) =>
+                setSearch({ ...search, location: e.target.value })
+              }
             />
           </StandaloneSearchBox>
         )}
@@ -89,18 +102,18 @@ const Calendar = () => {
           hideTimeZone
           onChange={handleDateChange}
           defaultValue={{
-            start: dateRange.start,
-            end: dateRange.end,
+            start: search.dates.start,
+            end: search.dates.end,
           }}
           value={{
-            start: dateRange.start,
-            end: dateRange.end,
+            start: search.dates.start,
+            end: search.dates.end,
           }}
           label="Booking Dates"
           visibleMonths={2}
           minValue={parseZonedDateTime(today)}
         />
-        <Button className="h-[15px]" variant="solid">
+        <Button className="h-[15px]" variant="solid" onPress={handleSearch}>
           Search
         </Button>
       </div>
