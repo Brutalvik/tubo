@@ -46,10 +46,11 @@ const Menu = () => {
             <>
               <ModalBody>
                 <ul className="divide-y divide-gray-300">
-                  <li className="py-3" onClick={handleLoginModal}>
+                  <li className="py-3">
                     <a
                       href="#"
                       className="flex items-center gap-x-2 hover:underline"
+                      onClick={handleLoginModal}
                     >
                       <CiLogin size="20px" /> Login
                     </a>

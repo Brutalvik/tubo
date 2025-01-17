@@ -60,12 +60,22 @@ const Login = () => {
                   label="Password"
                   type={isVisible ? "text" : "password"}
                 />
-                <a
-                  href="#"
-                  className="flex items-center gap-x-2 hover:underline"
-                >
-                  <p>Memory Lag ?</p>
-                </a>
+
+                <div className="flex justify-between w-full">
+                  <a
+                    href="#"
+                    className="flex items-center gap-x-2 hover:underline"
+                  >
+                    <p className="text-left">Memory Lag?</p>
+                  </a>
+                  <a
+                    href="#"
+                    className="flex items-center gap-x-2 hover:underline"
+                  >
+                    <p className="text-right">Join the Fun!</p>
+                  </a>
+                </div>
+
                 <Button color="primary" onPress={handleModalClose}>
                   Jump back in !
                 </Button>
