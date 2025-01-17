@@ -6,7 +6,7 @@ import signupReducer from "@store/signupModal.js";
 const store = configureStore({
   reducer: {
     modal: modalReducer,
-    loginModal: loginReducer,
+    login: loginReducer,
     signup: signupReducer,
   }, // Add reducers here
 });

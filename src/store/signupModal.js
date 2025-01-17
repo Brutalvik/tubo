@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isOpen: false,
+  isSocialMediaModalOpen: false,
+  isSignupModalOpen: false,
   firstName: "",
   lastName: "",
   email: "",
@@ -12,11 +13,17 @@ export const signupModal = createSlice({
   name: "login",
   initialState,
   reducers: {
-    openModal: (state) => {
-      state.isOpen = true;
+    openSocialMediaSignupModal: (state) => {
+      state.isSocialMediaModalOpen = true;
     },
-    closeModal: (state) => {
-      state.isOpen = false;
+    closeSocialMediaSignupModal: (state) => {
+      state.isSocialMediaModalOpen = false;
+    },
+    openSignupModal: (state) => {
+      state.isSignupModalOpen = true;
+    },
+    closeSignupModal: (state) => {
+      state.isSignupModalOpen = false;
     },
     signupUser: (state, action) => {
       console.log(action);
@@ -25,6 +32,12 @@ export const signupModal = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { openModal, closeModal } = signupModal.actions;
+export const {
+  openSocialMediaSignupModal,
+  closeSocialMediaSignupModal,
+  openSignupModal,
+  closeSignupModal,
+  signupUser,
+} = signupModal.actions;
 
 export default signupModal.reducer;

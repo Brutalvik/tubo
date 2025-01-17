@@ -10,10 +10,10 @@ export const loginModal = createSlice({
   name: "login",
   initialState,
   reducers: {
-    openModal: (state) => {
+    openLoginModal: (state) => {
       state.isOpen = true;
     },
-    closeModal: (state) => {
+    closeLoginModal: (state) => {
       state.isOpen = false;
     },
     loginUser: (state, action) => {
@@ -23,6 +23,7 @@ export const loginModal = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { openModal, closeModal } = loginModal.actions;
+export const { openLoginModal, closeLoginModal, loginUser } =
+  loginModal.actions;
 
 export default loginModal.reducer;

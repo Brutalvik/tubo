@@ -7,7 +7,8 @@ import {
 } from "@nextui-org/react";
 import { useSelector, useDispatch } from "react-redux";
 import { closeModal } from "@store/modal.js";
-import { openModal } from "@store/loginModal.js";
+import { openLoginModal } from "@store/loginModal.js";
+import { openSocialMediaSignupModal } from "@store/signupModal.js";
 import { Link } from "react-router-dom";
 
 //icons
@@ -28,7 +29,13 @@ const Menu = () => {
 
   const handleLoginModal = (e) => {
     e.preventDefault(); // Prevent the default anchor behavior
-    dispatch(openModal());
+    dispatch(openLoginModal());
+    dispatch(closeModal());
+  };
+
+  const handleSignupAlternateModal = (e) => {
+    e.preventDefault();
+    dispatch(openSocialMediaSignupModal());
     dispatch(closeModal());
   };
 
@@ -56,12 +63,13 @@ const Menu = () => {
                     </a>
                   </li>
                   <li className="py-3 border-b border-gray-300">
-                    <Link
-                      to="/signup"
+                    <a
+                      href="#"
                       className="flex items-center gap-x-2 hover:underline"
+                      onClick={handleSignupAlternateModal}
                     >
                       <CiUser size="20px" /> Signup
-                    </Link>
+                    </a>
                   </li>
                   <li className="py-3 border-b border-gray-300">
                     <Link

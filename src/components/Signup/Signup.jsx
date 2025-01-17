@@ -7,25 +7,26 @@ import {
   Button,
 } from "@nextui-org/react";
 import { useSelector, useDispatch } from "react-redux";
-import { closeLoginModal } from "@store/loginModal.js";
+import { closeSignupModal } from "@store/signupModal.js";
 import { Input } from "@nextui-org/react";
 import { FaUserCircle } from "react-icons/fa";
 import { HiEye, HiEyeOff } from "react-icons/hi";
-import { FaFacebook, FaInstagram, FaGoogle } from "react-icons/fa";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { useState } from "react";
-import { openSocialMediaSignupModal } from "@store/signupModal.js";
+import { openLoginModal } from "@store/loginModal.js";
 
-const Login = () => {
+const Signup = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const isModalOpen = useSelector(({ login }) => login.isOpen);
+  const isModalOpen = useSelector(({ signup }) => signup.isSignupModalOpen);
 
   const dispatch = useDispatch();
 
-  const handleModalClose = () => dispatch(closeLoginModal());
-  const handleSocialMediaModal = () => {
-    dispatch(openSocialMediaSignupModal());
-    dispatch(closeLoginModal());
+  const handleModalClose = () => dispatch(closeSignupModal());
+
+  const handleLoginModal = () => {
+    dispatch(openLoginModal());
+    dispatch(closeSignupModal());
   };
 
   return (
@@ -41,10 +42,14 @@ const Login = () => {
             <>
               <ModalHeader className="flex items-center justify-center gap-4 text-center">
                 <FaUserCircle className="text-2xl" />
-                <h1 className="text-xl font-bold">Hop in</h1>
+                <h1 className="text-xl font-bold">
+                  Sign up (Start your Engines !)
+                </h1>
               </ModalHeader>
 
               <ModalBody>
+                <Input label="First Name" type="text" className="w-[250px]" />
+                <Input label="First Name" type="text" className="w-[250px]" />
                 <Input label="Email" type="email" className="w-[250px]" />
                 <Input
                   className="w-[250px]"
@@ -71,20 +76,14 @@ const Login = () => {
                     href="#"
                     className="flex items-center gap-x-2 hover:underline"
                   >
-                    <p className="text-left">Memory Lag?</p>
-                  </a>
-                  <a
-                    href="#"
-                    className="flex items-center gap-x-2 hover:underline"
-                  >
-                    <p className="text-right" onClick={handleSocialMediaModal}>
-                      Join the Fun!
+                    <p className="text-right" onClick={handleLoginModal}>
+                      Already a Tubo member ?
                     </p>
                   </a>
                 </div>
 
                 <Button color="primary" onPress={handleModalClose}>
-                  Jump back in !
+                  Register
                 </Button>
               </ModalBody>
 
@@ -94,7 +93,6 @@ const Login = () => {
                   <FaFacebook size={25} className="cursor-pointer" />
                   <FaInstagram size={25} className="cursor-pointer" />
                   <FaXTwitter size={25} className="cursor-pointer" />
-                  <FaGoogle size={25} className="cursor-pointer" />
                 </div>
               </ModalFooter>
             </>
@@ -105,4 +103,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
