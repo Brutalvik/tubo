@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 import App from "./App";
 import "./index.css";
+import { BrowserRouter } from "react-router-dom";
 
 const node = document.getElementById("root");
 const root = createRoot(node);
@@ -14,7 +15,9 @@ const app = (
     <Provider store={store}>
       <NextUIProvider>
         <NextThemesProvider attribute="class" defaultTheme="dark">
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </NextThemesProvider>
       </NextUIProvider>
     </Provider>

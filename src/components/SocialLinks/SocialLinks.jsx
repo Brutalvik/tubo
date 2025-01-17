@@ -7,10 +7,10 @@ const SocialLinks = () => {
   return (
     <div className="flex justify-center gap-4 mt-4">
       <a href={socialLinks.facebook} target="_blank" rel="noreferrer">
-        <FaFacebook size={24} />
+        <FaFacebook size={25} />
       </a>
       <a href={socialLinks.instagram} target="_blank" rel="noreferrer">
-        <FaInstagram size={24} />
+        <FaInstagram size={25} />
       </a>
       <a href={socialLinks.x} target="_blank" rel="noreferrer">
         <FaXTwitter size={25} />

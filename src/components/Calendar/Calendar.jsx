@@ -78,6 +78,7 @@ const Calendar = () => {
             onPlacesChanged={handleOnPlacesChanged}
           >
             <Input
+              isClearable
               key="inside"
               label="Where"
               type="text"
@@ -87,6 +88,9 @@ const Calendar = () => {
               onChange={(e) =>
                 setSearch({ ...search, location: e.target.value })
               }
+              onClear={() => {
+                setSearch({ ...search, address: "", location: "" });
+              }}
             />
           </StandaloneSearchBox>
         )}

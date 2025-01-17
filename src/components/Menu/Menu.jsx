@@ -1,14 +1,14 @@
 import {
   Modal,
   ModalContent,
-  ModalHeader,
   ModalBody,
   ModalFooter,
   Button,
-  useDisclosure,
 } from "@nextui-org/react";
 import { useSelector, useDispatch } from "react-redux";
 import { closeModal } from "@store/modal.js";
+import { openModal } from "@store/loginModal.js";
+import { Link } from "react-router-dom";
 
 //icons
 import { CiLogin, CiUser } from "react-icons/ci";
@@ -26,6 +26,12 @@ const Menu = () => {
 
   const handleModalClose = () => dispatch(closeModal());
 
+  const handleLoginModal = (e) => {
+    e.preventDefault(); // Prevent the default anchor behavior
+    dispatch(openModal());
+    dispatch(closeModal());
+  };
+
   return (
     <>
       <Modal
@@ -40,62 +46,62 @@ const Menu = () => {
             <>
               <ModalBody>
                 <ul className="divide-y divide-gray-300">
-                  <li className="py-3">
+                  <li className="py-3" onClick={handleLoginModal}>
                     <a
-                      href="/login"
+                      href="#"
                       className="flex items-center gap-x-2 hover:underline"
                     >
                       <CiLogin size="20px" /> Login
                     </a>
                   </li>
                   <li className="py-3 border-b border-gray-300">
-                    <a
-                      href="/signup"
+                    <Link
+                      to="/signup"
                       className="flex items-center gap-x-2 hover:underline"
                     >
                       <CiUser size="20px" /> Signup
-                    </a>
+                    </Link>
                   </li>
                   <li className="py-3 border-b border-gray-300">
-                    <a
-                      href="/be-a-host"
+                    <Link
+                      to="/be-a-host"
                       className="flex items-center gap-x-2 hover:underline"
                     >
                       <RiCarLine size="20px" /> Be a Host
-                    </a>
+                    </Link>
                   </li>
                   <li className="py-3">
-                    <a
-                      href="/discover"
+                    <Link
+                      to="/discover"
                       className="flex items-center gap-x-2 hover:underline"
                     >
                       <MdOutlineExplore size="20px" /> Discover Tubo
-                    </a>
+                    </Link>
                   </li>
                   <li className="py-3">
-                    <a
-                      href="/help"
+                    <Link
+                      to="/help"
                       className="flex items-center gap-x-2 hover:underline"
                     >
                       <MdHelpOutline size="20px" /> Get Help
-                    </a>
+                    </Link>
                   </li>
                   <li className="py-3">
-                    <a
-                      href="/rights"
+                    <Link
+                      to="/rights"
                       className="flex items-center gap-x-2 hover:underline"
                     >
                       <LiaHandPointRightSolid size="20px" /> Your Rights
-                    </a>
+                    </Link>
                   </li>
                   <li className="py-3">
-                    <a
-                      href="/safety-insurance"
+                    <Link
+                      to="/safety-insurance"
                       className="flex items-center gap-x-2 hover:underline"
                     >
                       <MdOutlineHealthAndSafety size="20px" /> Safety &
                       Insurance
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </ModalBody>
