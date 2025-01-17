@@ -21,7 +21,7 @@ import {
 import { LiaHandPointRightSolid } from "react-icons/lia";
 
 const Menu = () => {
-  const isModalOpen = useSelector(({ modal }) => modal.isModalOpen);
+  const isModalOpen = useSelector(({ modal }) => modal.isOpen);
   const dispatch = useDispatch();
 
   const handleModalClose = () => dispatch(closeModal());

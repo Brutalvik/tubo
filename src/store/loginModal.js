@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isLoginModalOpen: false,
+  isOpen: false,
   email: "",
   password: "",
 };
@@ -11,10 +11,10 @@ export const loginModal = createSlice({
   initialState,
   reducers: {
     openModal: (state) => {
-      state.isLoginModalOpen = true;
+      state.isOpen = true;
     },
     closeModal: (state) => {
-      state.isLoginModalOpen = false;
+      state.isOpen = false;
     },
     loginUser: (state, action) => {
       console.log(action);

@@ -5,13 +5,13 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  useDisclosure,
 } from "@nextui-org/react";
 import { useSelector, useDispatch } from "react-redux";
-import { closeModal } from "@store/modal.js";
+import { closeModal } from "@store/loginModal.js";
 
 const Login = () => {
-  const isModalOpen = useSelector(({ modal }) => modal.isModalOpen);
+  const isModalOpen = useSelector(({ loginModal }) => loginModal.isOpen);
+
   const dispatch = useDispatch();
 
   const handleModalClose = () => dispatch(closeModal());
@@ -28,7 +28,9 @@ const Login = () => {
         <ModalContent>
           {() => (
             <>
-              <ModalBody></ModalBody>
+              <ModalBody>
+                <h1>LOGIN</h1>
+              </ModalBody>
 
               <ModalFooter>
                 <Button color="primary" onPress={handleModalClose}>

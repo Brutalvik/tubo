@@ -5,9 +5,6 @@ import { openModal } from "@store/modal.js";
 
 const UserAvatar = () => {
   const dispatch = useDispatch();
-
-  console.log(useSelector((state) => state));
-
   const handleModalOpen = () => dispatch(openModal());
 
   return (
