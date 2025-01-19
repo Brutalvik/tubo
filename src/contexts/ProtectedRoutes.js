@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
 import { CircularProgress } from "@heroui/react";
+import Login from "@components/Login/Login";
 
 const ProtectedRoute = ({ children }) => {
   const { userLoggedIn, isLoading } = useAuth();
@@ -10,7 +11,7 @@ const ProtectedRoute = ({ children }) => {
   }
 
   if (!userLoggedIn) {
-    return <Navigate to="/" replace />; // Redirect to login if not authenticated
+    return <Login redirect={true} />; // Redirect to login if not authenticated
   }
 
   return children; // Render the protected content
