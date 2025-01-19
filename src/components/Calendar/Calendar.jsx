@@ -2,6 +2,7 @@ import React, { useRef, useState, useMemo } from "react";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { Button, Input } from "@heroui/react";
 import { useFormik } from "formik";
+import DateRangePickerWithTime from "@features/DateRangePickerWithTime/DateRangePickerWithTime";
 import { useSelector, useDispatch } from "react-redux";
 import { setSearchCriteria } from "@store/searchCriteria";
 import moment from "moment";
@@ -115,24 +116,14 @@ const Calendar = () => {
 
         {/* Date range picker */}
         <div className="w-full flex flex-col sm:flex-row sm:gap-4">
-          <div className="flex flex-col sm:flex-row sm:gap-4 w-full items-center">
-            <Input
-              label="From"
-              labelPlacement="inside"
-              type="datetime-local"
-              value={moment(formik.values.startDate).format("YYYY-MM-DDTHH:mm")}
-              onChange={(date) => formik.setFieldValue("startDate", date)}
-              className="rounded-lg w-full sm:w-auto text-lg sm:text-base mb-2" // Adjust input width here
-            />
-            <Input
-              label="To"
-              labelPlacement="inside"
-              type="datetime-local"
-              value={moment(formik.values.endDate).format("YYYY-MM-DDTHH:mm")}
-              onChange={(date) => formik.setFieldValue("endDate", date)}
-              className="rounded-lg w-full sm:w-auto text-lg sm:text-base mt-2 sm:mt-0" // Adjust input width here
-            />
-          </div>
+          <DateRangePickerWithTime
+            startDate={formik.values.startDate}
+            endDate={formik.values.endDate}
+            onStartDateChange={(date) =>
+              formik.setFieldValue("startDate", date)
+            }
+            onEndDateChange={(date) => formik.setFieldValue("endDate", date)}
+          />
         </div>
 
         {/* Submit button */}
