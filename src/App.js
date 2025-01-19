@@ -10,6 +10,7 @@ import { AuthProvider } from "@contexts/AuthProvider";
 import ProtectedRoutes from "@contexts/ProtectedRoutes";
 import HostDashboard from "@components/Dashboard/HostDashboard";
 import SearchResults from "@components/SearchResults/SearchResults";
+import Results from "@components/Results/Results";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
+          <Route path="/results" element={<Results />} />
 
           {/* Protected Routes */}
           <Route element={<ProtectedRoutes />}>
