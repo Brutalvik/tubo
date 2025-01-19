@@ -7,7 +7,7 @@ import {
   Button,
 } from "@heroui/react";
 import { useSelector, useDispatch } from "react-redux";
-import { closeSignupModal } from "@store/signupModal.js";
+import { closeSignupModal, signupUser } from "@store/signupModal.js";
 import { Input } from "@heroui/react";
 import { FaUserCircle } from "react-icons/fa";
 import { HiEye, HiEyeOff } from "react-icons/hi";
@@ -18,6 +18,8 @@ import { openLoginModal } from "@store/loginModal.js";
 import { useFormik } from "formik";
 
 const Signup = () => {
+  const user = useSelector(({ signup }) => signup);
+
   //form data
   const formik = useFormik({
     initialValues: {
@@ -29,12 +31,10 @@ const Signup = () => {
     },
     onSubmit: (values) => {
       console.log("Submitted values:", values);
+      dispatch(signupUser(values));
+      formik.resetForm();
     },
   });
-
-  useEffect(() => {
-    formik.resetForm();
-  }, []);
 
   const [isVisible, setIsVisible] = useState(false);
   const isModalOpen = useSelector(({ signup }) => signup.isSignupModalOpen);
@@ -48,7 +48,7 @@ const Signup = () => {
     dispatch(closeSignupModal());
   };
 
-  const { firstName, lastName, dateOfBirth, email, password } = formik.values;
+  const { values } = formik;
 
   return (
     <>
@@ -79,7 +79,7 @@ const Signup = () => {
                     label="First Name"
                     type="text"
                     className="w-full"
-                    value={firstName}
+                    value={values.firstName}
                     onChange={formik.handleChange}
                   />
                   <Input
@@ -87,7 +87,7 @@ const Signup = () => {
                     name="lastName"
                     type="text"
                     className="w-full"
-                    value={lastName}
+                    value={values.lastName}
                     onChange={formik.handleChange}
                   />
 
@@ -96,14 +96,14 @@ const Signup = () => {
                     name="email"
                     type="email"
                     className="w-full"
-                    value={email}
+                    value={values.email}
                     onChange={formik.handleChange}
                   />
                   <Input
                     label="Password"
                     name="password"
                     type={isVisible ? "text" : "password"}
-                    value={password}
+                    value={values.password}
                     onChange={formik.handleChange}
                     className="w-full"
                     endContent={
