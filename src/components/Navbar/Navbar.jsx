@@ -2,6 +2,7 @@ import React from "react";
 import UserAvatar from "@components/UserAvatar/UserAvatar";
 import { Button } from "@heroui/react";
 import logo from "@assets/tubo_white.png";
+import SearchLocation from "@components/SearchLocation/SearchLocation";
 
 const Navbar = () => {
   return (
@@ -11,6 +12,10 @@ const Navbar = () => {
         <a href="/">
           <img src={logo} alt="Tubo" className="h-10 w-20 mt-2 mb-2" />
         </a>
+      </div>
+
+      <div>
+        <SearchLocation />
       </div>
 
       {/* Right Section (e.g., User Avatar) */}

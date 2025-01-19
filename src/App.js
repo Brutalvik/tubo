@@ -9,6 +9,7 @@ import Signup from "@components/Signup/Signup";
 import { AuthProvider } from "@contexts/AuthProvider";
 import ProtectedRoutes from "@contexts/ProtectedRoutes";
 import HostDashboard from "@components/Dashboard/HostDashboard";
+import SearchResults from "@components/SearchResults/SearchResults";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <ProtectedRoutes>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/results" element={<SearchResults />} />
             <Route path="/host-dashboard" element={<HostDashboard />} />
           </Routes>
         </ProtectedRoutes>
