@@ -42,7 +42,7 @@ const Login = ({ redirect = false }) => {
     if (redirect) {
       dispatch(openLoginModal());
     }
-  }, [(redirect = true)]);
+  }, [(redirect, dispatch)]);
 
   return (
     <>
