@@ -17,14 +17,14 @@ const DateRangePickerWithTime = ({
   };
 
   return (
-    <>
+    <div className="flex flex-col sm:flex-row sm:gap-4 w-full items-center">
       <Input
         label="From"
         labelPlacement="inside"
         type="datetime-local"
         value={moment(startDate).format("YYYY-MM-DDTHH:mm")}
         onChange={handleStartDateChange}
-        className="rounded-lg cursor-pointer"
+        className="rounded-lg w-full sm:w-auto text-lg sm:text-base mb-2" // Adjust input width here
       />
       <Input
         label="To"
@@ -32,9 +32,9 @@ const DateRangePickerWithTime = ({
         type="datetime-local"
         value={moment(endDate).format("YYYY-MM-DDTHH:mm")}
         onChange={handleEndDateChange}
-        className="rounded-lg"
+        className="rounded-lg w-full sm:w-auto text-lg sm:text-base mt-2 sm:mt-0" // Adjust input width here
       />
-    </>
+    </div>
   );
 };
 

@@ -14,10 +14,6 @@ const Navbar = () => {
         </a>
       </div>
 
-      <div>
-        <SearchLocation />
-      </div>
-
       {/* Right Section (e.g., User Avatar) */}
       <div className="flex justify-end cursor-pointer mt-2 gap-4 mb-2">
         <Button color="default">Be a Host</Button>

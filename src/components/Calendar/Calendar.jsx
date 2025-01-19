@@ -84,49 +84,58 @@ const Calendar = () => {
   };
 
   return (
-    <form
-      onSubmit={formik.handleSubmit}
-      className="w-[300px] max-w-xl flex flex-col gap-2 p-4"
-    >
-      {/* Input for location */}
-      <div className="w-full">
-        {isLoaded && (
-          <StandaloneSearchBox
-            onLoad={(ref) => (inputRef.current = ref)}
-            onPlacesChanged={handleOnPlacesChanged}
-          >
-            <Input
-              isClearable
-              label="Where"
-              type="text"
-              className="w-full h-12"
-              placeholder=""
-              value={formik.values.location || ""}
-              onChange={formik.handleChange}
-              name="location"
-              onClear={() => {
-                formik.setFieldValue("address", "");
-                formik.setFieldValue("location", "");
-              }}
-            />
-          </StandaloneSearchBox>
-        )}
-      </div>
+    <div className="w-full sm:w-[500px] mx-auto p-4">
+      <form
+        onSubmit={formik.handleSubmit}
+        className="bg-white/20 backdrop-blur-sm border border-300 rounded-lg p-4 flex flex-col gap-4 shadow-lg"
+      >
+        {/* Input for location */}
+        <div className="w-full">
+          {isLoaded && (
+            <StandaloneSearchBox
+              onLoad={(ref) => (inputRef.current = ref)}
+              onPlacesChanged={handleOnPlacesChanged}
+            >
+              <Input
+                isClearable
+                label="Where"
+                type="text"
+                className="w-full text-lg" // Adjust the width and height here
+                placeholder="Enter a location"
+                value={formik.values.location || ""}
+                onChange={formik.handleChange}
+                name="location"
+                onClear={() => {
+                  formik.setFieldValue("address", "");
+                  formik.setFieldValue("location", "");
+                }}
+              />
+            </StandaloneSearchBox>
+          )}
+        </div>
 
-      {/* Date range picker */}
-      <div className="flex w-full gap-4">
-        <DateRangePickerWithTime
-          startDate={formik.values.startDate}
-          endDate={formik.values.endDate}
-          onStartDateChange={(date) => formik.setFieldValue("startDate", date)}
-          onEndDateChange={(date) => formik.setFieldValue("endDate", date)}
-        />
-        <Button type="submit" className="h-[15px]" variant="solid">
+        {/* Date range picker */}
+        <div className="w-full flex flex-col sm:flex-row sm:gap-4">
+          <DateRangePickerWithTime
+            startDate={formik.values.startDate}
+            endDate={formik.values.endDate}
+            onStartDateChange={(date) =>
+              formik.setFieldValue("startDate", date)
+            }
+            onEndDateChange={(date) => formik.setFieldValue("endDate", date)}
+          />
+        </div>
+
+        {/* Submit button */}
+        <Button
+          type="submit"
+          className="w-full h-12 text-lg sm:text-base" // Adjust button width and height here
+          variant="solid"
+        >
           Search
         </Button>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
-
 export default Calendar;
