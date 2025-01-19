@@ -54,22 +54,20 @@ const Menu = () => {
               <ModalBody>
                 <ul className="divide-y divide-gray-300">
                   <li className="py-3">
-                    <a
-                      href="#"
-                      className="flex items-center gap-x-2 hover:underline"
+                    <p
+                      className="text-right flex items-center gap-x-2 hover:underline cursor-pointer"
                       onClick={handleLoginModal}
                     >
                       <CiLogin size="20px" /> Login
-                    </a>
+                    </p>
                   </li>
                   <li className="py-3 border-b border-gray-300">
-                    <a
-                      href="#"
-                      className="flex items-center gap-x-2 hover:underline"
+                    <p
+                      className="text-right flex items-center gap-x-2 hover:underline cursor-pointer"
                       onClick={handleSignupAlternateModal}
                     >
                       <CiUser size="20px" /> Signup
-                    </a>
+                    </p>
                   </li>
                   <li className="py-3 border-b border-gray-300">
                     <Link

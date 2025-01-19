@@ -67,20 +67,16 @@ const Login = () => {
                 />
 
                 <div className="flex justify-between w-full">
-                  <a
-                    href="#"
-                    className="flex items-center gap-x-2 hover:underline"
+                  <p className="text-right flex items-center gap-x-2 hover:underline cursor-pointer">
+                    Forgot password ?
+                  </p>
+
+                  <p
+                    onClick={handleSocialMediaModal}
+                    className="text-right flex items-center gap-x-2 hover:underline cursor-pointer"
                   >
-                    <p className="text-left">Memory Lag?</p>
-                  </a>
-                  <a
-                    href="#"
-                    className="flex items-center gap-x-2 hover:underline"
-                  >
-                    <p className="text-right" onClick={handleSocialMediaModal}>
-                      Join the Fun!
-                    </p>
-                  </a>
+                    Join the Fun!
+                  </p>
                 </div>
 
                 <Button color="primary" onPress={handleModalClose}>

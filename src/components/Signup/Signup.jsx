@@ -72,14 +72,12 @@ const Signup = () => {
                 />
 
                 <div className="flex justify-between w-full">
-                  <a
-                    href="#"
-                    className="flex items-center gap-x-2 hover:underline"
+                  <p
+                    onClick={handleLoginModal}
+                    className="text-right flex items-center gap-x-2 hover:underline cursor-pointer"
                   >
-                    <p className="text-right" onClick={handleLoginModal}>
-                      Already a Tubo member ?
-                    </p>
-                  </a>
+                    Already a Tubo member ?
+                  </p>
                 </div>
 
                 <Button color="primary" onPress={handleModalClose}>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Avatar } from "@nextui-org/react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { openModal } from "@store/modal.js";
 
 const UserAvatar = () => {
