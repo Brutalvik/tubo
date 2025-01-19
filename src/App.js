@@ -16,13 +16,13 @@ const App = () => {
     <div className={styles.main}>
       <Navbar />
       <Menu />
+      <Login />
+      <Signup />
+      <SignupAlternate />
       <AuthProvider>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/signup-alternate" element={<SignupAlternate />} />
 
           {/* Protected Routes */}
           <Route element={<ProtectedRoutes />}>
