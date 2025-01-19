@@ -1,8 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import moment from "moment";
 
 const initialState = {
-  search: null,
+  search: {
+    location: "",
+    address: {},
+    coordinates: { lat: null, lng: null },
+    startDate: null,
+    endDate: null,
+  },
 };
 
 export const searchCriteria = createSlice({
@@ -10,7 +15,18 @@ export const searchCriteria = createSlice({
   initialState,
   reducers: {
     setSearchCriteria: (state, { payload }) => {
-      state.search = payload;
+      // Serialize Moment objects to ISO string
+      const startDate = payload.startDate.toISOString();
+      const endDate = payload.endDate.toISOString();
+
+      // Update the state with serialized values
+      state.search = {
+        location: payload?.location || "", // Default to empty string if not present
+        address: payload?.address || {}, // Default to empty object if not present
+        coordinates: payload?.coordinates, // Storing only lat and lng
+        startDate,
+        endDate,
+      };
     },
   },
 });

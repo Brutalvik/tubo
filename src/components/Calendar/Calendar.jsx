@@ -9,9 +9,7 @@ import moment from "moment";
 
 const Calendar = () => {
   const dispatch = useDispatch();
-  const { searchAddress, startDate, endDate } = useSelector(
-    ({ searchCriteria }) => searchCriteria
-  );
+  const { searchAddress } = useSelector(({ searchCriteria }) => searchCriteria);
 
   const libraries = useMemo(() => ["places"], []);
   const inputRef = useRef();
@@ -27,6 +25,7 @@ const Calendar = () => {
     initialValues: {
       location: searchAddress,
       address: searchAddress,
+      coordinates: { lat: null, lng: null },
       startDate: moment().set({
         hour: 10,
         minute: 0,
@@ -39,26 +38,20 @@ const Calendar = () => {
     },
 
     onSubmit: (values) => {
-      console.log("values : ", values.address);
-      const location = values.address[0]?.geometry?.location;
-      const lat = location ? location.lat() : null; // Extract latitude
-      const lng = location ? location.lng() : null; // Extract longitude
+      console.log("values : ", values);
 
-      const viewport = values.address[0]?.geometry?.viewport;
-      const viewportNE = viewport
-        ? { lat: viewport.hi, lng: viewport.lo }
-        : null; // Northeast corner
-      const viewportSW = viewport
-        ? { lat: viewport.lo, lng: viewport.hi }
-        : null; // Southwest corner
-      // Log the form data
+      // Serialize the coordinates to plain lat/lng object
+      const serializedCoordinates = {
+        lat: values.coordinates?.lat,
+        lng: values.coordinates?.lng,
+      };
+
       dispatch(
         setSearchCriteria({
-          ...formik.values,
+          ...values,
           address: values.address[0],
           location: values.address[0]?.name || "",
-          coordinates: { lat, lng }, // Only store serializable data
-          viewport: { viewportNE, viewportSW },
+          coordinates: serializedCoordinates, // Only pass lat and lng
         })
       ); // Update search state with form values
     },
@@ -71,18 +64,23 @@ const Calendar = () => {
     const addressComponents = address[0]?.address_components || "";
     const longName = addressComponents[0].long_name || "";
     const shortName = addressComponents[1].short_name || "";
-
     const countryShortName = addressComponents[2].short_name || "";
 
-    // Combine the extracted data to show in the search bar (e.g., "Hyderabad, Telangana, IN")
+    // Combine the extracted data to show in the search bar
     const formattedLocation = `${longName}, ${shortName}, ${countryShortName}`;
+    const location = address[0]?.geometry?.location;
 
-    // Log the formatted address for debugging
-    console.log("Formatted Location:", formattedLocation);
+    const lat = location ? location.lat() : null; // Extract latitude
+    const lng = location ? location.lng() : null; // Extract longitude
+
+    const serializedCoordinates = { lat, lng }; // Only store lat and lng as plain objects
+
+    console.log("SER : ", serializedCoordinates);
 
     // Set the values in Formik
     formik.setFieldValue("location", formattedLocation);
     formik.setFieldValue("address", address);
+    formik.setFieldValue("coordinates", serializedCoordinates);
   };
 
   return (
@@ -103,7 +101,7 @@ const Calendar = () => {
               type="text"
               className="w-full h-12"
               placeholder=""
-              value={formik.values.location}
+              value={formik.values.location || ""}
               onChange={formik.handleChange}
               name="location"
               onClear={() => {
