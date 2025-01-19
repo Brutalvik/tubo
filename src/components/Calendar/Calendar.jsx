@@ -123,6 +123,7 @@ const Calendar = () => {
               value={moment(formik.values.startDate).format("YYYY-MM-DDTHH:mm")}
               onChange={(date) => formik.setFieldValue("startDate", date)}
               className="rounded-lg w-full sm:w-auto text-lg sm:text-base mb-2" // Adjust input width here
+              min={moment().format("YYYY-MM-DDTHH:mm")}
             />
             <Input
               label="To"
@@ -131,6 +132,7 @@ const Calendar = () => {
               value={moment(formik.values.endDate).format("YYYY-MM-DDTHH:mm")}
               onChange={(date) => formik.setFieldValue("endDate", date)}
               className="rounded-lg w-full sm:w-auto text-lg sm:text-base mt-2 sm:mt-0" // Adjust input width here
+              max={moment().add(1, "year").format("YYYY-MM-DDTHH:mm")}
             />
           </div>
         </div>
