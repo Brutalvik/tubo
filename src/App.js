@@ -6,6 +6,9 @@ import { Route, Routes } from "react-router-dom";
 import Login from "@components/Login/Login";
 import SignupAlternate from "@components/Signup/SignupAlternate";
 import Signup from "@components/Signup/Signup";
+import { AuthProvider } from "@contexts/AuthProvider";
+import ProtectedRoutes from "@contexts/ProtectedRoutes";
+import HostDashboard from "@components/Dashboard/HostDashboard";
 
 const App = () => {
   return (
@@ -15,9 +18,14 @@ const App = () => {
       <Login />
       <SignupAlternate />
       <Signup />
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
+      <AuthProvider>
+        <ProtectedRoutes>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/host-dashboard" element={<HostDashboard />} />
+          </Routes>
+        </ProtectedRoutes>
+      </AuthProvider>
     </div>
   );
 };

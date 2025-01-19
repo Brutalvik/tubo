@@ -4,6 +4,7 @@ import { onAuthStateChanged } from "firebase/auth";
 
 const AuthContext = createContext();
 
+// Hook to access auth state
 export const useAuth = () => {
   return useContext(AuthContext);
 };
@@ -14,20 +15,20 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, initializeUser);
-    return unsubscribe;
-  }, []);
+    // Subscribe to auth state changes
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUser({ ...user });
+        setUserLoggedIn(true);
+      } else {
+        setCurrentUser(null);
+        setUserLoggedIn(false);
+      }
+      setIsLoading(false);
+    });
 
-  const initializeUser = async (user) => {
-    if (user) {
-      setCurrentUser({ ...user });
-      setUserLoggedIn(true);
-    } else {
-      setCurrentUser(null);
-      setUserLoggedIn(false);
-    }
-    setIsLoading(false);
-  };
+    return unsubscribe; // Clean up the subscription
+  }, []);
 
   const value = {
     currentUser,
@@ -37,7 +38,8 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      (!loading && children)
+      {!isLoading && children}{" "}
+      {/* Only render children when loading is complete */}
     </AuthContext.Provider>
   );
 };
