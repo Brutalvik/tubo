@@ -3,13 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isSocialMediaModalOpen: false,
   isSignupModalOpen: false,
-  currentUser: {
-    firstName: "",
-    lastName: "",
-    dateOfBirth: "",
-    email: "",
-    password: "",
-  },
 };
 
 export const signupModal = createSlice({
@@ -27,10 +20,6 @@ export const signupModal = createSlice({
     },
     closeSignupModal: (state) => {
       state.isSignupModalOpen = false;
-    },
-    signupUser: (state, { payload }) => {
-      console.log(payload);
-      state.currentUser = payload;
     },
   },
 });

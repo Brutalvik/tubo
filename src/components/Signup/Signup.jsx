@@ -7,19 +7,19 @@ import {
   Button,
 } from "@heroui/react";
 import { useSelector, useDispatch } from "react-redux";
-import { closeSignupModal, signupUser } from "@store/signupModal.js";
+import { closeSignupModal } from "@store/signupModal";
 import { Input } from "@heroui/react";
 import { FaUserCircle } from "react-icons/fa";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { useEffect, useState } from "react";
-import { openLoginModal } from "@store/loginModal.js";
+import { useState } from "react";
+import { openLoginModal } from "@store/loginModal";
 import { useFormik } from "formik";
+import { doCreateUserWithEmailAndPassword } from "@firebase/auth";
 
 const Signup = () => {
-  const user = useSelector(({ signup }) => signup);
-
+  const [submitting, setSubmitting] = useState(false);
   //form data
   const formik = useFormik({
     initialValues: {
@@ -29,9 +29,12 @@ const Signup = () => {
       email: "",
       password: "",
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
+      setSubmitting(true);
       console.log("Submitted values:", values);
-      dispatch(signupUser(values));
+      const user = await doSignInWithEmailAndPassword();
+      console.log("user : ", user);
+      setSubmitting(false);
       formik.resetForm();
     },
   });
@@ -134,6 +137,7 @@ const Signup = () => {
                     type="submit"
                     onPress={handleModalClose}
                     className="text-center w-full"
+                    isLoading={submitting}
                   >
                     Register
                   </Button>

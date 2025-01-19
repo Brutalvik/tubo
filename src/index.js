@@ -7,7 +7,7 @@ import store from "./store/store";
 import App from "./App";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
-// import { AuthProvider } from "@contexts/AuthProvider.js";
+import { AuthProvider } from "@contexts/AuthProvider.js";
 
 const node = document.getElementById("root");
 const root = createRoot(node);
@@ -16,9 +16,11 @@ const app = (
     <Provider store={store}>
       <HeroUIProvider>
         <NextThemesProvider attribute="class" defaultTheme="dark">
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
+          <AuthProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </AuthProvider>
         </NextThemesProvider>
       </HeroUIProvider>
     </Provider>

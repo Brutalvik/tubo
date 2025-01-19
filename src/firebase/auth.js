@@ -9,8 +9,8 @@ import {
   updatePassword,
 } from "firebase/auth";
 
-export const doCreateUserWithEmailAndPassword = () => {
-  createUserWithEmailAndPassword(auth, email, password);
+export const doCreateUserWithEmailAndPassword = (user) => {
+  createUserWithEmailAndPassword(auth, user?.email, user?.password);
 };
 
 export const doSignInWithGoogle = async () => {
