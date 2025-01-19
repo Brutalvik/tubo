@@ -1,6 +1,6 @@
 import React from "react";
 import UserAvatar from "@components/UserAvatar/UserAvatar";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import logo from "@assets/tubo_white.png";
 
 const Navbar = () => {

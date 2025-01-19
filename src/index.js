@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { Provider } from "react-redux";
 import store from "./store/store";
@@ -13,13 +13,13 @@ const root = createRoot(node);
 const app = (
   <StrictMode>
     <Provider store={store}>
-      <NextUIProvider>
+      <HeroUIProvider>
         <NextThemesProvider attribute="class" defaultTheme="dark">
           <BrowserRouter>
             <App />
           </BrowserRouter>
         </NextThemesProvider>
-      </NextUIProvider>
+      </HeroUIProvider>
     </Provider>
   </StrictMode>
 );

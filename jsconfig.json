@@ -6,7 +6,9 @@
       "@assets/*": ["assets/*"],
       "@features/*": ["features/*"],
       "@store": ["store/*"],
-      "@pages": ["pages/*"]
+      "@pages": ["pages/*"],
+      "@firebase": ["firebase/*"],
+      "@contexts": ["contexts/*"]
     }
   }
 }

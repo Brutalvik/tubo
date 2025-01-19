@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar } from "@nextui-org/react";
+import { Avatar } from "@heroui/react";
 import { useDispatch } from "react-redux";
 import { openModal } from "@store/modal.js";
 

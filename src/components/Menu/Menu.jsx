@@ -4,7 +4,7 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { closeModal } from "@store/modal.js";
 import { openLoginModal } from "@store/loginModal.js";

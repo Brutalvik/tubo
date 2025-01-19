@@ -5,10 +5,10 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { closeLoginModal } from "@store/loginModal.js";
-import { Input } from "@nextui-org/react";
+import { Input } from "@heroui/react";
 import { FaUserCircle } from "react-icons/fa";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { FaFacebook, FaInstagram, FaGoogle } from "react-icons/fa";

@@ -5,18 +5,37 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { closeSignupModal } from "@store/signupModal.js";
-import { Input } from "@nextui-org/react";
+import { Input } from "@heroui/react";
 import { FaUserCircle } from "react-icons/fa";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { openLoginModal } from "@store/loginModal.js";
+import { useFormik } from "formik";
 
 const Signup = () => {
+  //form data
+  const formik = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      dateOfBirth: "",
+      email: "",
+      password: "",
+    },
+    onSubmit: (values) => {
+      console.log("Submitted values:", values);
+    },
+  });
+
+  useEffect(() => {
+    formik.resetForm();
+  }, []);
+
   const [isVisible, setIsVisible] = useState(false);
   const isModalOpen = useSelector(({ signup }) => signup.isSignupModalOpen);
 
@@ -28,6 +47,8 @@ const Signup = () => {
     dispatch(openLoginModal());
     dispatch(closeSignupModal());
   };
+
+  const { firstName, lastName, dateOfBirth, email, password } = formik.values;
 
   return (
     <>
@@ -48,41 +69,75 @@ const Signup = () => {
               </ModalHeader>
 
               <ModalBody>
-                <Input label="First Name" type="text" className="w-[250px]" />
-                <Input label="First Name" type="text" className="w-[250px]" />
-                <Input label="Email" type="email" className="w-[250px]" />
-                <Input
-                  className="w-[250px]"
-                  endContent={
-                    <button
-                      aria-label="toggle password visibility"
-                      className="focus:outline-none"
-                      type="button"
-                      onClick={() => setIsVisible((prev) => !prev)}
+                <form
+                  autoComplete="off"
+                  className="flex flex-col gap-4 pb-4"
+                  onSubmit={formik.handleSubmit}
+                >
+                  <Input
+                    name="firstName"
+                    label="First Name"
+                    type="text"
+                    className="w-full"
+                    value={firstName}
+                    onChange={formik.handleChange}
+                  />
+                  <Input
+                    label="Last Name"
+                    name="lastName"
+                    type="text"
+                    className="w-full"
+                    value={lastName}
+                    onChange={formik.handleChange}
+                  />
+
+                  <Input
+                    label="Email"
+                    name="email"
+                    type="email"
+                    className="w-full"
+                    value={email}
+                    onChange={formik.handleChange}
+                  />
+                  <Input
+                    label="Password"
+                    name="password"
+                    type={isVisible ? "text" : "password"}
+                    value={password}
+                    onChange={formik.handleChange}
+                    className="w-full"
+                    endContent={
+                      <button
+                        aria-label="toggle password visibility"
+                        className="focus:outline-none"
+                        type="button"
+                        onClick={() => setIsVisible((prev) => !prev)}
+                      >
+                        {isVisible ? (
+                          <HiEyeOff className="text-2xl text-default-400 pointer-events-none" />
+                        ) : (
+                          <HiEye className="text-2xl text-default-400 pointer-events-none" />
+                        )}
+                      </button>
+                    }
+                  />
+                  <div className="flex justify-between w-full">
+                    <p
+                      onClick={handleLoginModal}
+                      className="text-right flex items-center gap-x-2 hover:underline cursor-pointer"
                     >
-                      {isVisible ? (
-                        <HiEyeOff className="text-2xl text-default-400 pointer-events-none" />
-                      ) : (
-                        <HiEye className="text-2xl text-default-400 pointer-events-none" />
-                      )}
-                    </button>
-                  }
-                  label="Password"
-                  type={isVisible ? "text" : "password"}
-                />
-
-                <div className="flex justify-between w-full">
-                  <p
-                    onClick={handleLoginModal}
-                    className="text-right flex items-center gap-x-2 hover:underline cursor-pointer"
+                      Already a Tubo member ?
+                    </p>
+                  </div>
+                  <Button
+                    color="primary"
+                    type="submit"
+                    onPress={handleModalClose}
+                    className="text-center w-full"
                   >
-                    Already a Tubo member ?
-                  </p>
-                </div>
-
-                <Button color="primary" onPress={handleModalClose}>
-                  Register
-                </Button>
+                    Register
+                  </Button>
+                </form>
               </ModalBody>
 
               <ModalFooter className="flex flex-col justify-center items-center">
