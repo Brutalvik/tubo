@@ -16,17 +16,20 @@ const App = () => {
     <div className={styles.main}>
       <Navbar />
       <Menu />
-      <Login />
-      <SignupAlternate />
-      <Signup />
       <AuthProvider>
-        <ProtectedRoutes>
-          <Routes>
-            <Route path="/" element={<Home />} />
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/signup-alternate" element={<SignupAlternate />} />
+
+          {/* Protected Routes */}
+          <Route element={<ProtectedRoutes />}>
             <Route path="/results" element={<SearchResults />} />
             <Route path="/host-dashboard" element={<HostDashboard />} />
-          </Routes>
-        </ProtectedRoutes>
+          </Route>
+        </Routes>
       </AuthProvider>
     </div>
   );
