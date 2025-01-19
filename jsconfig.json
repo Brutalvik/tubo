@@ -7,7 +7,7 @@
       "@features/*": ["features/*"],
       "@store": ["store/*"],
       "@pages": ["pages/*"],
-      "@firebase": ["firebase/*"],
+      "@firebaselocal": ["firebase/*"],
       "@contexts": ["contexts/*"]
     }
   }

@@ -13,13 +13,20 @@ import { FaUserCircle } from "react-icons/fa";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { openLoginModal } from "@store/loginModal";
 import { useFormik } from "formik";
-import { doCreateUserWithEmailAndPassword } from "@firebase/auth";
+import { doCreateUserWithEmailAndPassword } from "@firebaselocal/auth";
+import AnimatedSuccessCheck from "@features/AnimatedSuccessCheck/AnimatedSuccessCheck";
 
 const Signup = () => {
+  const dispatch = useDispatch();
   const [submitting, setSubmitting] = useState(false);
+  const [userCreationSuccess, setUserCreationSuccess] = useState(false);
+
+  const handleModalClose = () => {
+    dispatch(closeSignupModal());
+  };
   //form data
   const formik = useFormik({
     initialValues: {
@@ -31,20 +38,25 @@ const Signup = () => {
     },
     onSubmit: async (values) => {
       setSubmitting(true);
-      console.log("Submitted values:", values);
-      const user = await doSignInWithEmailAndPassword();
-      console.log("user : ", user);
-      setSubmitting(false);
-      formik.resetForm();
+      try {
+        // Call the doCreateUserWithEmailAndPassword function
+        await doCreateUserWithEmailAndPassword(values);
+        // Handle success, such as redirecting to a login page or home page
+        setUserCreationSuccess(true);
+        setTimeout(() => dispatch(closeSignupModal()), 2000);
+      } catch (error) {
+        // setErrorMessage(error.message); // Display error message
+        console.error("Error signing up:", error.message);
+        setUserCreationSuccess(false);
+      } finally {
+        setSubmitting(false); // Stop submitting after completion
+        formik.resetForm();
+      }
     },
   });
 
   const [isVisible, setIsVisible] = useState(false);
   const isModalOpen = useSelector(({ signup }) => signup.isSignupModalOpen);
-
-  const dispatch = useDispatch();
-
-  const handleModalClose = () => dispatch(closeSignupModal());
 
   const handleLoginModal = () => {
     dispatch(openLoginModal());
@@ -53,110 +65,123 @@ const Signup = () => {
 
   const { values } = formik;
 
+  // Reset success state whenever the modal opens
+  useEffect(() => {
+    if (isModalOpen) {
+      setUserCreationSuccess(false);
+    }
+  }, [isModalOpen]);
+
   return (
-    <>
-      <Modal
-        isOpen={isModalOpen}
-        size="sm"
-        onClose={handleModalClose}
-        aria-labelledby="modal-title"
-      >
-        <ModalContent>
-          {() => (
-            <>
-              <ModalHeader className="flex items-center justify-center gap-4 text-center">
-                <FaUserCircle className="text-2xl" />
+    <Modal
+      isOpen={isModalOpen}
+      size="sm"
+      onClose={handleModalClose}
+      aria-labelledby="modal-title"
+    >
+      <ModalContent>
+        {() => (
+          <>
+            <ModalHeader className="flex items-center justify-center gap-4 text-center">
+              <FaUserCircle className="text-2xl" />
+              {userCreationSuccess ? (
                 <h1 className="text-xl font-bold">
-                  Sign up (Start your Engines !)
+                  Great ! Start your Engines..
                 </h1>
-              </ModalHeader>
-
-              <ModalBody>
-                <form
-                  autoComplete="off"
-                  className="flex flex-col gap-4 pb-4"
-                  onSubmit={formik.handleSubmit}
-                >
-                  <Input
-                    name="firstName"
-                    label="First Name"
-                    type="text"
-                    className="w-full"
-                    value={values.firstName}
-                    onChange={formik.handleChange}
-                  />
-                  <Input
-                    label="Last Name"
-                    name="lastName"
-                    type="text"
-                    className="w-full"
-                    value={values.lastName}
-                    onChange={formik.handleChange}
-                  />
-
-                  <Input
-                    label="Email"
-                    name="email"
-                    type="email"
-                    className="w-full"
-                    value={values.email}
-                    onChange={formik.handleChange}
-                  />
-                  <Input
-                    label="Password"
-                    name="password"
-                    type={isVisible ? "text" : "password"}
-                    value={values.password}
-                    onChange={formik.handleChange}
-                    className="w-full"
-                    endContent={
-                      <button
-                        aria-label="toggle password visibility"
-                        className="focus:outline-none"
-                        type="button"
-                        onClick={() => setIsVisible((prev) => !prev)}
-                      >
-                        {isVisible ? (
-                          <HiEyeOff className="text-2xl text-default-400 pointer-events-none" />
-                        ) : (
-                          <HiEye className="text-2xl text-default-400 pointer-events-none" />
-                        )}
-                      </button>
-                    }
-                  />
-                  <div className="flex justify-between w-full">
-                    <p
-                      onClick={handleLoginModal}
-                      className="text-right flex items-center gap-x-2 hover:underline cursor-pointer"
-                    >
-                      Already a Tubo member ?
-                    </p>
-                  </div>
-                  <Button
-                    color="primary"
-                    type="submit"
-                    onPress={handleModalClose}
-                    className="text-center w-full"
-                    isLoading={submitting}
+              ) : (
+                <h1 className="text-xl font-bold">Sign up</h1>
+              )}
+            </ModalHeader>
+            {userCreationSuccess ? (
+              <AnimatedSuccessCheck />
+            ) : (
+              <>
+                <ModalBody>
+                  <form
+                    autoComplete="off"
+                    className="flex flex-col gap-4 pb-4"
+                    onSubmit={formik.handleSubmit}
                   >
-                    Register
-                  </Button>
-                </form>
-              </ModalBody>
+                    <Input
+                      name="firstName"
+                      label="First Name"
+                      type="text"
+                      className="w-full"
+                      value={values.firstName}
+                      onChange={formik.handleChange}
+                    />
+                    <Input
+                      label="Last Name"
+                      name="lastName"
+                      type="text"
+                      className="w-full"
+                      value={values.lastName}
+                      onChange={formik.handleChange}
+                    />
 
-              <ModalFooter className="flex flex-col justify-center items-center">
-                <p className="mb-4">Alternate Access</p>
-                <div className="flex gap-4 mt-4">
-                  <FaFacebook size={25} className="cursor-pointer" />
-                  <FaInstagram size={25} className="cursor-pointer" />
-                  <FaXTwitter size={25} className="cursor-pointer" />
-                </div>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-    </>
+                    <Input
+                      label="Email"
+                      name="email"
+                      type="email"
+                      className="w-full"
+                      value={values.email}
+                      onChange={formik.handleChange}
+                    />
+                    <Input
+                      label="Password"
+                      name="password"
+                      type={isVisible ? "text" : "password"}
+                      value={values.password}
+                      onChange={formik.handleChange}
+                      className="w-full"
+                      endContent={
+                        <button
+                          aria-label="toggle password visibility"
+                          className="focus:outline-none"
+                          type="button"
+                          onClick={() => setIsVisible((prev) => !prev)}
+                        >
+                          {isVisible ? (
+                            <HiEyeOff className="text-2xl text-default-400 pointer-events-none" />
+                          ) : (
+                            <HiEye className="text-2xl text-default-400 pointer-events-none" />
+                          )}
+                        </button>
+                      }
+                    />
+                    <div className="flex justify-between w-full">
+                      <p
+                        onClick={handleLoginModal}
+                        className="text-right flex items-center gap-x-2 hover:underline cursor-pointer"
+                      >
+                        Already a Tubo member ?
+                      </p>
+                    </div>
+                    <Button
+                      color="primary"
+                      type="submit"
+                      className="text-center w-full"
+                      isLoading={submitting}
+                    >
+                      Register
+                    </Button>
+                  </form>
+                </ModalBody>
+
+                <ModalFooter className="flex flex-col justify-center items-center">
+                  <p className="mb-4">Alternate Access</p>
+                  <div className="flex gap-4 mt-4">
+                    <FaFacebook size={25} className="cursor-pointer" />
+                    <FaInstagram size={25} className="cursor-pointer" />
+                    <FaXTwitter size={25} className="cursor-pointer" />
+                  </div>
+                </ModalFooter>
+              </>
+            )}
+          </>
+        )}
+      </ModalContent>
+    </Modal>
   );
 };
 

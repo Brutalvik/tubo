@@ -325,7 +325,7 @@ module.exports = function (webpackEnv) {
         "@features": path.resolve(__dirname, "../src/features/"),
         "@store": path.resolve(__dirname, "../src/store/"),
         "@pages": path.resolve(__dirname, "../src/pages/"),
-        "@firebase": path.resolve(__dirname, "../src/firebase"),
+        "@firebaselocal": path.resolve(__dirname, "../src/firebase"),
         "@contexts": path.resolve(__dirname, "../src/contexts"),
       },
       plugins: [
