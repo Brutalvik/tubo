@@ -11,10 +11,12 @@ const CarCard = ({
   year,
   rating,
   allStarHost,
-  pricePerDay,
-  discount,
+  totalPrice,
+  isDiscountApplied,
   location,
   totalTrips,
+  discountAmount,
+  discountedPrice,
 }) => {
   const [liked, setLiked] = useState(false);
   const carHeader = `${make} ${model} ${year}`;
@@ -70,10 +72,12 @@ const CarCard = ({
               </Button>
             </div>
             <div className="flex justify-between">
-              <SaveChip amount={5} />
+              {isDiscountApplied && <SaveChip amount={discountAmount} />}
               <div className="flex justify-end text-xl gap-2">
-                <p className="!text-black-500 !line-through">{pricePerDay}</p>
-                <p className="text-green-400 font-bold">$45</p>
+                <p className="!text-black-500 !line-through">
+                  {isDiscountApplied && totalPrice}
+                </p>
+                <p className="text-green-400 font-bold">{discountedPrice}</p>
               </div>
             </div>
           </div>
