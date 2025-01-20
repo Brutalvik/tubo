@@ -20,7 +20,7 @@ const Results = () => {
           pricePerDay,
           features,
         }) => (
-          <div className="flex flex-col m-2 py-2">
+          <div className="flex flex-col m-2 py-2" key={carId}>
             <CarCard
               carId={carId}
               hostId={hostId}
@@ -34,7 +34,6 @@ const Results = () => {
               discount={discount}
               pricePerDay={pricePerDay}
               features={features}
-              key={carId}
             />
           </div>
         )

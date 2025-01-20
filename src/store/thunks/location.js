@@ -9,7 +9,7 @@ export const fetchGeoLocation = createAsyncThunk(
   "location/fetchGeoLocation",
   async ({ latitude, longitude }, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
+      const { data } = await axios.get(
         process.env.REACT_APP_FETCH_LOCATION_USING_COORDINATES_URL,
         {
           params: {
@@ -19,13 +19,16 @@ export const fetchGeoLocation = createAsyncThunk(
         }
       );
 
-      if (response.data.status === "OK") {
-        return response.data.results[0].formatted_address;
-      } else {
-        throw new Error("Location not found");
+      // Extract the desired address component
+      const locationName = data.results[0]?.address_components[3]?.long_name;
+
+      if (!locationName) {
+        throw new Error("Location name not found");
       }
+
+      return locationName;
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );

@@ -22,6 +22,7 @@ const CarCard = ({
   features,
 }) => {
   const dispatch = useDispatch();
+  const [locationName, setLocationName] = useState("");
   const [liked, setLiked] = useState(false);
   const carHeader = `${make} ${model} ${year}`;
   const startDate = new Date("2024-10-04T14:00:00");
@@ -40,22 +41,27 @@ const CarCard = ({
   );
 
   useEffect(() => {
-    dispatch(fetchGeoLocation(location));
-  }, [location]);
+    // Fetch location name for this specific card
+    const fetchLocation = async () => {
+      const { latitude, longitude } = location;
+      const result = await dispatch(fetchGeoLocation({ latitude, longitude }));
+      if (result.payload) {
+        setLocationName(result.payload); // Update location name for this card
+      }
+    };
 
-  const { locationName } = useSelector((state) => state.location);
-  console.log(locationName);
+    fetchLocation();
+  }, [location, dispatch]);
 
   return (
     <Card
-      isBlurred
       className="border-none bg-background/60 dark:bg-default-100/50 max-w-[640px] cursor-pointer"
       shadow="sm"
     >
       <CardBody>
-        <div className="relative w-full flex flex-row gap-4 bg-cardBackground backdrop-blur-md border border-gray-500 shadow-lg rounded-lg hover:bg-cardHover">
-          {/* Image Section */}
-          <div className="relative">
+        <div className="relative w-full flex flex-row gap-4 border border-gray-500 shadow-lg rounded-lg hover:bg-cardHover">
+          {/* Image Section*/}
+          <div className="relative ">
             <Image
               alt="Car image"
               className="object-cover rounded-lg shadow-md w-[300px]"
@@ -88,7 +94,7 @@ const CarCard = ({
 
                 <h1 className="text-large font-medium mt-2">
                   <p className="text-small text-foreground/80">
-                    {locationName}
+                    Location : {locationName}
                   </p>
                 </h1>
               </div>

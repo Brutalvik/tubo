@@ -1,34 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { fetchGeoLocation } from "@store/thunks/location";
 
-const initialState = {
-  locationName: "",
-  loading: false,
-  error: null,
-};
-
-const location = createSlice({
+const locationSlice = createSlice({
   name: "location",
-  initialState,
-  reducers: {
-    fetchLocationPending: (state) => {
-      state.loading = true;
-      state.error = null;
-    },
-    fetchLocationFulfilled: (state, action) => {
-      state.locationName = action.payload;
-      state.loading = false;
-    },
-    fetchLocationRejected: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
+  initialState: {
+    locationName: null,
+    loading: false,
+    error: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchGeoLocation.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchGeoLocation.fulfilled, (state, action) => {
+        state.loading = false;
+        state.locationName = action.payload;
+      })
+      .addCase(fetchGeoLocation.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
-export const {
-  fetchLocationPending,
-  fetchLocationFulfilled,
-  fetchLocationRejected,
-} = location.actions;
-
-export default location.reducer;
+export default locationSlice.reducer;
