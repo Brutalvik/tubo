@@ -4,8 +4,20 @@ import { GoHeart, GoHeartFill } from "react-icons/go";
 import { FaStar, FaCrown } from "react-icons/fa";
 import SaveChip from "@features/SaveChip/SaveChip";
 
-const CarCard = () => {
+const CarCard = ({
+  carId,
+  make,
+  model,
+  year,
+  rating,
+  allStarHost,
+  pricePerDay,
+  discount,
+  location,
+  totalTrips,
+}) => {
   const [liked, setLiked] = useState(false);
+  const carHeader = `${make} ${model} ${year}`;
 
   return (
     <Card
@@ -30,19 +42,21 @@ const CarCard = () => {
           <div className="flex flex-col justify-between">
             <div className="flex justify-between items-start">
               <div className="flex flex-col gap-0">
-                <h3 className="font-semibold text-2xl mt-2">BMW X6</h3>
+                <h3 className="font-semibold text-2xl mt-2">{carHeader}</h3>
                 <div className="flex flex-row gap-2 mt-2">
-                  <p className="text-small text-foreground/80">5.0</p>
+                  <p className="text-small text-foreground/80">{rating}</p>
                   <FaStar />
-                  <p className="text-small text-foreground/80">[25 Trips]</p>
+                  <p className="text-small text-foreground/80">
+                    [{totalTrips} Trips]
+                  </p>
                   <FaCrown />
-                  <p className="text-small text-foreground/80">All Star Host</p>
+                  <p className="text-small text-foreground/80">
+                    {allStarHost && "All Star Host"}
+                  </p>
                 </div>
 
                 <h1 className="text-large font-medium mt-2">
-                  <p className="text-small text-foreground/80">
-                    Delivered to you
-                  </p>
+                  <p className="text-small text-foreground/80">{location}</p>
                 </h1>
               </div>
               <Button
@@ -58,7 +72,7 @@ const CarCard = () => {
             <div className="flex justify-between">
               <SaveChip amount={5} />
               <div className="flex justify-end text-xl gap-2">
-                <p className="!text-black-500 !line-through">$50</p>
+                <p className="!text-black-500 !line-through">{pricePerDay}</p>
                 <p className="text-green-400 font-bold">$45</p>
               </div>
             </div>
