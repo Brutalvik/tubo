@@ -10,7 +10,7 @@ const Navbar = () => {
       {/* Left Section (e.g., Logo) */}
       <div className="flex items-center">
         <a href="/">
-          <img src={logo} alt="Tubo" className="h-10 w-20 mt-2 mb-2" />
+          <img src={logo} alt="Tubo" className="h-10 w-25 mt-2 mb-2" />
         </a>
       </div>
 
