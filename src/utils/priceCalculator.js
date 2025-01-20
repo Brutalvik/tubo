@@ -22,8 +22,7 @@ export const calculatePriceForSelectedDuration = (
   const totalHours = timeDifference / (1000 * 3600);
 
   // Calculate the total number of days (rounding to nearest whole day based on the threshold)
-  const totalDays = Math.max(Math.ceil(totalHours / 24), 1);
-  console.log(1, totalDays); // Ensure at least 1 day if valid
+  const totalDays = Math.max(Math.ceil(totalHours / 24), 1); // Ensure at least 1 day if valid
 
   // If the duration is more than 3 hours but less than 24 hours, treat it as 1 day
   const isPartialDay = totalHours > 3 && totalHours < 24;

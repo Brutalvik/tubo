@@ -44,6 +44,7 @@ const CarCard = ({
   }, [location]);
 
   const { locationName } = useSelector((state) => state.location);
+  console.log(locationName);
 
   return (
     <Card
@@ -105,14 +106,22 @@ const CarCard = ({
             {/* Bottom Elements with absolute positioning */}
             <div className="relative mt-2">
               {/* SaveChip aligned to the left at the bottom */}
-              <div className="absolute bottom-0 left-4 py-1">
-                <SaveChip amount={discountAmount} />
-              </div>
+              {isDiscountApplied && (
+                <div className="absolute bottom-0 left-4 py-1">
+                  <SaveChip amount={discountAmount} />
+                </div>
+              )}
 
               {/* Price info aligned to the right at the bottom */}
               <div className="absolute bottom-0 right-4 flex gap-2 text-xl items-center py-2">
-                <p className="text-black-500 line-through">${totalPrice}</p>
-                <p className="text-green-400 font-bold">${discountedPrice}</p>
+                {isDiscountApplied && (
+                  <p className="text-black-500 line-through">${totalPrice}</p>
+                )}
+                {isDiscountApplied ? (
+                  <p className="text-green-400 font-bold">${discountedPrice}</p>
+                ) : (
+                  <p className="text-gray-200 font-bold">${discountedPrice}</p>
+                )}
               </div>
             </div>
           </div>
