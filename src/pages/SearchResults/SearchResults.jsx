@@ -1,10 +1,10 @@
 import React from "react";
-import { SearchFilters } from "@components/SearchFilters/SearchFilters";
+import Results from "@components/Results/Results";
 
 const SearchResults = () => {
   return (
     <div>
-      <SearchFilters />
+      <Results />
     </div>
   );
 };

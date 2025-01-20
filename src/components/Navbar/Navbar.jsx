@@ -2,11 +2,10 @@ import React from "react";
 import UserAvatar from "@components/UserAvatar/UserAvatar";
 import { Button } from "@heroui/react";
 import logo from "@assets/tubo_white.png";
-// import SearchLocation from "@components/SearchLocation/SearchLocation";
 
 const Navbar = () => {
   return (
-    <nav className="h-[10vh] w-full flex items-center justify-between px-4 md:px-8 shadow-md mt-2">
+    <nav className="bg-black fixed top-0 left-0 w-full flex items-center justify-between px-4 md:px-8 shadow-md z-50">
       {/* Left Section (e.g., Logo) */}
       <div className="flex items-center">
         <a href="/">
