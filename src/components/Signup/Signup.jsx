@@ -7,14 +7,14 @@ import {
   Button,
 } from "@heroui/react";
 import { useSelector, useDispatch } from "react-redux";
-import { closeSignupModal } from "@store/signupModal";
+import { closeSignupModal } from "@store/reducers/signupModal";
 import { Input } from "@heroui/react";
 import { FaUserCircle } from "react-icons/fa";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { useState, useEffect } from "react";
-import { openLoginModal } from "@store/loginModal";
+import { openLoginModal } from "@store/reducers/loginModal";
 import { useFormik } from "formik";
 import { doCreateUserWithEmailAndPassword } from "@firebaselocal/auth";
 import AnimatedSuccessCheck from "@features/AnimatedSuccessCheck/AnimatedSuccessCheck";

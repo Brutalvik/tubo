@@ -2,7 +2,7 @@ import React from "react";
 import UserAvatar from "@components/UserAvatar/UserAvatar";
 import { Button } from "@heroui/react";
 import logo from "@assets/tubo_white.png";
-import SearchLocation from "@components/SearchLocation/SearchLocation";
+// import SearchLocation from "@components/SearchLocation/SearchLocation";
 
 const Navbar = () => {
   return (

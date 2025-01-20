@@ -1,16 +1,21 @@
 import styles from "./App.css";
-import Home from "@pages/Home";
+//Pages
+import Home from "@pages/Home/Home";
+import Results from "@pages/Results/Results";
+import HostDashboard from "@pages/Dashboard/HostDashboard";
+
+//Components
 import Menu from "@components/Menu/Menu";
 import Navbar from "@components/Navbar/Navbar";
-import { Route, Routes } from "react-router-dom";
 import Login from "@components/Login/Login";
 import SignupAlternate from "@components/Signup/SignupAlternate";
 import Signup from "@components/Signup/Signup";
+// import SearchResults from "@components/SearchResults/SearchResults";
+
+//Router-dom
+import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "@contexts/AuthProvider";
 import ProtectedRoutes from "@contexts/ProtectedRoutes";
-import HostDashboard from "@components/Dashboard/HostDashboard";
-import SearchResults from "@components/SearchResults/SearchResults";
-import Results from "@components/Results/Results";
 
 const App = () => {
   return (
@@ -28,7 +33,7 @@ const App = () => {
 
           {/* Protected Routes */}
           <Route element={<ProtectedRoutes />}>
-            <Route path="/results" element={<SearchResults />} />
+            {/* <Route path="/results" element={<SearchResults />} /> */}
             <Route path="/host-dashboard" element={<HostDashboard />} />
           </Route>
         </Routes>
