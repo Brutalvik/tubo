@@ -2,7 +2,7 @@ import styles from "./App.css";
 //Pages
 import Home from "@pages/Home/Home";
 import Results from "@pages/Results/Results";
-import HostDashboard from "@components/Dashboard/HostDashboard";
+import HostDashboard from "@pages/Dashboard/HostDashboard";
 
 //Components
 import Menu from "@components/Menu/Menu";
