@@ -3,7 +3,7 @@ import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { Button, Input } from "@heroui/react";
 import { useFormik } from "formik";
 import { useSelector, useDispatch } from "react-redux";
-import { setSearchCriteria } from "@store/searchCriteria";
+import { setSearchCriteria } from "@store/reducers/searchCriteria";
 import moment from "moment";
 
 const Calendar = () => {

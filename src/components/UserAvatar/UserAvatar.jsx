@@ -1,7 +1,7 @@
 import React from "react";
 import { Avatar } from "@heroui/react";
 import { useDispatch } from "react-redux";
-import { openModal } from "@store/modal.js";
+import { openModal } from "@store/reducers/modal.js";
 
 const UserAvatar = () => {
   const dispatch = useDispatch();

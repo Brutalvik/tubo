@@ -7,14 +7,14 @@ import {
   Button,
 } from "@heroui/react";
 import { useSelector, useDispatch } from "react-redux";
-import { closeLoginModal, openLoginModal } from "@store/loginModal.js";
+import { closeLoginModal, openLoginModal } from "@store/reducers/loginModal.js";
 import { Input } from "@heroui/react";
 import { FaUserCircle } from "react-icons/fa";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { FaFacebook, FaInstagram, FaGoogle } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { useEffect, useState } from "react";
-import { openSocialMediaSignupModal } from "@store/signupModal.js";
+import { openSocialMediaSignupModal } from "@store/reducers/signupModal.js";
 import { useNavigate } from "react-router-dom";
 
 const Login = ({ redirect = false }) => {

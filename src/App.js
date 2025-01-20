@@ -10,7 +10,7 @@ import Navbar from "@components/Navbar/Navbar";
 import Login from "@components/Login/Login";
 import SignupAlternate from "@components/Signup/SignupAlternate";
 import Signup from "@components/Signup/Signup";
-import SearchResults from "@components/SearchResults/SearchResults";
+// import SearchResults from "@components/SearchResults/SearchResults";
 
 //Router-dom
 import { Route, Routes } from "react-router-dom";
@@ -33,7 +33,7 @@ const App = () => {
 
           {/* Protected Routes */}
           <Route element={<ProtectedRoutes />}>
-            <Route path="/results" element={<SearchResults />} />
+            {/* <Route path="/results" element={<SearchResults />} /> */}
             <Route path="/host-dashboard" element={<HostDashboard />} />
           </Route>
         </Routes>

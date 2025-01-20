@@ -10,10 +10,10 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   closeSocialMediaSignupModal,
   openSignupModal,
-} from "@store/signupModal.js";
+} from "@store/reducers/signupModal.js";
 import { FaFacebook, FaInstagram, FaGoogle } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { openLoginModal } from "@store/loginModal.js";
+import { openLoginModal } from "@store/reducers/loginModal.js";
 import { MdOutlineMailOutline } from "react-icons/md";
 
 import logo from "@assets/tubo_white.png";

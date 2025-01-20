@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import loginReducer from "@store/loginModal.js";
-import modalReducer from "@store/modal.js";
-import signupReducer from "@store/signupModal.js";
-import searchCriteriaReducer from "@store/searchCriteria";
+import loginReducer from "@store/reducers/loginModal.js";
+import modalReducer from "@store/reducers/modal.js";
+import signupReducer from "@store/reducers/signupModal.js";
+import searchCriteriaReducer from "@store/reducers/searchCriteria";
+import locationReducer from "@store/reducers/location";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     login: loginReducer,
     signup: signupReducer,
     searchCriteria: searchCriteriaReducer,
+    location: locationReducer,
   }, // Add reducers here
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

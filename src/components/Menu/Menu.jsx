@@ -6,9 +6,9 @@ import {
   Button,
 } from "@heroui/react";
 import { useSelector, useDispatch } from "react-redux";
-import { closeModal } from "@store/modal.js";
-import { openLoginModal } from "@store/loginModal.js";
-import { openSocialMediaSignupModal } from "@store/signupModal.js";
+import { closeModal } from "@store/reducers/modal.js";
+import { openLoginModal } from "@store/reducers/loginModal.js";
+import { openSocialMediaSignupModal } from "@store/reducers/signupModal.js";
 import { Link } from "react-router-dom";
 
 //icons

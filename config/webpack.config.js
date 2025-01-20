@@ -327,6 +327,7 @@ module.exports = function (webpackEnv) {
         "@pages": path.resolve(__dirname, "../src/pages/"),
         "@firebaselocal": path.resolve(__dirname, "../src/firebase"),
         "@contexts": path.resolve(__dirname, "../src/contexts"),
+        "@utils": path.resolve(__dirname, "../src/utils"),
       },
       plugins: [
         // Prevents users from importing files from outside of src/ (or node_modules/).
