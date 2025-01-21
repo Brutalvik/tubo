@@ -1,11 +1,10 @@
 import React from "react";
 import CarCard from "@features/CarCard/CarCard";
-import cars from "../../dummy/cars";
 
-const Results = () => {
+const Results = (cars, startDate, endDate) => {
   return (
     <>
-      {cars.map(
+      {cars.cars?.map(
         ({
           carId,
           hostId,
@@ -36,6 +35,8 @@ const Results = () => {
               pricePerDay={pricePerDay}
               features={features}
               carImgURL={carImageUrl}
+              startDate={startDate}
+              endDate={endDate}
             />
           </div>
         )

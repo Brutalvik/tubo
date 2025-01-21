@@ -21,13 +21,13 @@ const CarCard = ({
   pricePerDay,
   features,
   carImgURL,
+  startDate,
+  endDate,
 }) => {
   const dispatch = useDispatch();
   const [locationName, setLocationName] = useState("");
   const [liked, setLiked] = useState(false);
   const carHeader = `${make} ${model} ${year}`;
-  const startDate = new Date("2024-10-04T14:00:00");
-  const endDate = new Date("2024-10-06T14:00:00");
   const {
     totalDays,
     totalPrice,
