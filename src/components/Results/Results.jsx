@@ -19,8 +19,9 @@ const Results = () => {
           discount,
           pricePerDay,
           features,
+          carImageUrl,
         }) => (
-          <div className="flex flex-col m-2 py-2" key={carId}>
+          <div className="flex flex-col m-2 p-2" key={carId}>
             <CarCard
               carId={carId}
               hostId={hostId}
@@ -34,6 +35,7 @@ const Results = () => {
               discount={discount}
               pricePerDay={pricePerDay}
               features={features}
+              carImgURL={carImageUrl}
             />
           </div>
         )

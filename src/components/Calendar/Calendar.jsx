@@ -115,14 +115,14 @@ const Calendar = () => {
 
         {/* Date range picker */}
         <div className="w-full flex flex-col sm:flex-row sm:gap-4">
-          <div className="flex flex-col sm:flex-row sm:gap-4 w-full items-center">
+          <div className="flex flex-col sm:flex-row sm:gap-2 w-full items-center">
             <Input
               label="From"
               labelPlacement="inside"
               type="datetime-local"
               value={moment(formik.values.startDate).format("YYYY-MM-DDTHH:mm")}
               onChange={(date) => formik.setFieldValue("startDate", date)}
-              className="rounded-lg w-full sm:w-auto text-lg sm:text-base mb-2" // Adjust input width here
+              className="rounded-lg w-full sm:w-auto text-lg sm:text-base py-2" // Adjust input width here
               min={moment().format("YYYY-MM-DDTHH:mm")}
             />
             <Input

@@ -5,7 +5,7 @@ import { FaStar, FaCrown } from "react-icons/fa";
 import SaveChip from "@features/SaveChip/SaveChip";
 import { calculatePriceForSelectedDuration } from "@utils/priceCalculator.js";
 import { fetchGeoLocation } from "@store/thunks/location";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const CarCard = ({
   carId,
@@ -42,11 +42,12 @@ const CarCard = ({
   );
 
   useEffect(() => {
+    // Fetch location name for this specific card
     const fetchLocation = async () => {
       const { latitude, longitude } = location;
       const result = await dispatch(fetchGeoLocation({ latitude, longitude }));
       if (result.payload) {
-        setLocationName(result.payload);
+        setLocationName(result.payload); // Update location name for this card
       }
     };
 
@@ -59,9 +60,9 @@ const CarCard = ({
       shadow="sm"
     >
       <CardBody>
-        <div className="relative w-full flex flex-col md:flex-row gap-4 border border-gray-500 shadow-lg rounded-lg hover:bg-cardHover">
-          {/* Image Section */}
-          <div className="relative w-full md:w-1/2">
+        <div className="relative w-full flex flex-row gap-4 border border-gray-500 shadow-lg rounded-lg hover:bg-cardHover">
+          {/* Image Section*/}
+          <div className="relative ">
             <Image
               alt="Car image"
               className="object-cover rounded-lg shadow-md"
@@ -74,7 +75,7 @@ const CarCard = ({
           {/* Content Section */}
           <div className="flex flex-col justify-between w-full">
             <div className="flex justify-between items-start">
-              <div className="flex flex-col gap-0 mx-2 px-2">
+              <div className="flex flex-col gap-0">
                 <h3 className="font-semibold text-2xl mt-2">{carHeader}</h3>
                 <div className="flex flex-row gap-2 mt-2">
                   <p className="text-small text-foreground/80">{rating}</p>
@@ -110,7 +111,7 @@ const CarCard = ({
             </div>
 
             {/* Bottom Elements with absolute positioning */}
-            <div className="relative mt-[52px] md:mt-[8px]">
+            <div className="relative mt-2">
               {/* SaveChip aligned to the left at the bottom */}
               {isDiscountApplied && (
                 <div className="absolute bottom-0 left-4 py-1">
