@@ -1,6 +1,6 @@
 import React from "react";
 import Results from "@components/Results/Results";
-import Map from "@components/Map/Map";
+import MapWithMarkers from "@components/MapWithMarkers/MapWithMarkers";
 
 const SearchResults = () => {
   return (
@@ -12,7 +12,7 @@ const SearchResults = () => {
 
       {/* Right Section: Map - visible only on medium and larger screens */}
       <div className="hidden lg:block lg:w-1/3 h-full p-2">
-        <Map />
+        <MapWithMarkers />
       </div>
     </div>
   );
