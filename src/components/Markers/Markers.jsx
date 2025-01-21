@@ -4,7 +4,11 @@ import { Chip } from "@heroui/react";
 import { calculatePriceForSelectedDuration } from "@utils/priceCalculator.js";
 
 const Markers = ({ cars }, startDate, endDate) => {
-  console.log("MARKERS : ", cars);
+  const handleMarkerClick = (carId) => {
+    console.log(`Marker clicked for car: ${carId}`);
+    // Add any action you'd like to trigger on click
+  };
+
   return (
     <>
       {cars.map(
@@ -44,11 +48,18 @@ const Markers = ({ cars }, startDate, endDate) => {
                 lat: location.latitude,
                 lng: location.longitude,
               }}
+              onClick={() => handleMarkerClick(carId)}
+              style={{ cursor: "pointer" }} // This will change the cursor on hover
             >
-              <Chip variant="bordered" className="bg-black">
-                {isDiscountApplied
-                  ? `CA$${discountedPrice}`
-                  : `CA$${pricePerDay}`}
+              <Chip
+                variant="bordered"
+                className="bg-black cursor-pointer hover:bg-gray-700"
+              >
+                {isDiscountApplied ? (
+                  <p className="text-green-500">{`CA$${discountedPrice}`}</p>
+                ) : (
+                  <p>{`CA$${pricePerDay}`}</p>
+                )}
               </Chip>
             </AdvancedMarker>
           );

@@ -1,10 +1,10 @@
 import React from "react";
 import CarCard from "@features/CarCard/CarCard";
 
-const Results = (cars, startDate, endDate) => {
+const Results = ({ cars, startDate, endDate }) => {
   return (
     <>
-      {cars.cars?.map(
+      {cars?.map(
         ({
           carId,
           hostId,

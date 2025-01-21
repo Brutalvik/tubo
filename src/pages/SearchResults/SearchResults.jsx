@@ -6,6 +6,7 @@ import cars from "../../dummy/cars";
 const SearchResults = () => {
   const startDate = new Date("2024-10-04T14:00:00");
   const endDate = new Date("2024-10-06T14:00:00");
+
   return (
     <div className="flex flex-col md:flex-row md:h-[90vh]">
       {/* Left Section: Results */}
@@ -14,7 +15,7 @@ const SearchResults = () => {
       </div>
 
       {/* Right Section: Map - visible only on medium and larger screens */}
-      <div className="hidden lg:block lg:w-1/3 h-full p-2">
+      <div className="hidden lg:block lg:w-1/2 h-full p-2">
         <MapWithMarkers cars={cars} startDate={startDate} endDate={endDate} />
       </div>
     </div>
