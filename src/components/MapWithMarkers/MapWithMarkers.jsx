@@ -1,5 +1,5 @@
 import React from "react";
-import { MapContainer, TileLayer, Marker, Tooltip, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { calculatePriceForSelectedDuration } from "@utils/priceCalculator";
@@ -52,13 +52,17 @@ const MapWithMarkers = ({ cars, startDate, endDate }) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {cars.map((car) => {
-          const { totalPrice, discountedPrice, isDiscountApplied } =
-            calculatePriceForSelectedDuration(
-              startDate,
-              endDate,
-              car.pricePerDay,
-              car.discount
-            );
+          const {
+            totalPrice,
+            discountedPrice,
+            isDiscountApplied,
+            discountAmount,
+          } = calculatePriceForSelectedDuration(
+            startDate,
+            endDate,
+            car.pricePerDay,
+            car.discount
+          );
 
           return (
             <Marker
@@ -70,12 +74,13 @@ const MapWithMarkers = ({ cars, startDate, endDate }) => {
               )}
             >
               {/* Tooltip for hover interaction */}
-              <Popup direction="top" offset={[0, -20]} opacity={1}>
+              <Popup direction="top" offset={[30, 5]} opacity={1}>
                 <PopupContent
                   car={car}
                   isDiscountApplied={isDiscountApplied}
                   totalPrice={totalPrice}
                   discountedPrice={discountedPrice}
+                  discountAmount={discountAmount}
                 />
               </Popup>
             </Marker>
