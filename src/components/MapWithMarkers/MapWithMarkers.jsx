@@ -1,8 +1,10 @@
 import React from "react";
-import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Tooltip, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { calculatePriceForSelectedDuration } from "@utils/priceCalculator";
+import TooltipContent from "@components/TooltipContent/TooltipContent";
+import PopupContent from "@components/PopupContent/PopupContent";
 
 // Fix default marker icon issue in Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -69,25 +71,14 @@ const MapWithMarkers = ({ cars, startDate, endDate }) => {
               )}
             >
               {/* Tooltip for hover interaction */}
-              <Tooltip direction="top" offset={[0, -20]} opacity={1}>
-                <div style={{ textAlign: "center" }}>
-                  <h3>{`${car.make} ${car.model}`}</h3>
-                  <p>Year: {car.year}</p>
-                  <p>
-                    Price:{" "}
-                    {isDiscountApplied ? (
-                      <span className="text-green-500">
-                        <s className="text-black line-through">
-                          CA${totalPrice}
-                        </s>{" "}
-                        CA${discountedPrice}
-                      </span>
-                    ) : (
-                      `CA$${totalPrice}`
-                    )}
-                  </p>
-                </div>
-              </Tooltip>
+              <Popup direction="top" offset={[0, -20]} opacity={1}>
+                <PopupContent
+                  car={car}
+                  isDiscountApplied={isDiscountApplied}
+                  totalPrice={totalPrice}
+                  discountedPrice={discountedPrice}
+                />
+              </Popup>
             </Marker>
           );
         })}
