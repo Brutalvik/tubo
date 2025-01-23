@@ -80,7 +80,7 @@ const PopupContent = ({
       )}
 
       {/* Price Information */}
-      <div className="relative  md:mt-[8px] flex items-center justify-around">
+      <div className="relative  md:mt-[8px] flex items-center justify-between">
         {/* SaveChip aligned to the left */}
         {isDiscountApplied && (
           <div>
