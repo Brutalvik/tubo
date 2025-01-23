@@ -55,15 +55,15 @@ const Login = ({ redirect = false }) => {
         <ModalContent>
           {() => (
             <>
-              <ModalHeader className="flex items-center justify-center gap-4 text-center">
+              <ModalHeader className="flex items-center justify-center gap-4 text-center z-50">
                 <FaUserCircle className="text-2xl" />
                 <h1 className="text-xl font-bold">Hop in</h1>
               </ModalHeader>
 
               <ModalBody>
-                <Input label="Email" type="email" className="w-[250px]" />
+                <Input label="Email" type="email" className="w-full" />
                 <Input
-                  className="w-[250px]"
+                  className="w-full"
                   endContent={
                     <button
                       aria-label="toggle password visibility"
