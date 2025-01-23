@@ -1,0 +1,44 @@
+.popup {
+  background-color: black; /* Default black background */
+  color: white; /* White text for contrast */
+  border-radius: 8px; /* Optional: rounded corners */
+  padding: 10px; /* Optional: padding inside the popup */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.popup:hover {
+  background-color: #333333; /* Slightly lighter black on hover */
+}
+
+.request-popup .leaflet-popup-content-wrapper {
+  width: auto;
+  background-color: #333333;
+  color: #fff;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.request-popup:hover,
+.leaflet-popup-content-wrapper:hover {
+  opacity: 1;
+}
+
+.leaflet-popup-content {
+  width: 100%;
+  padding: 5px;
+  margin: 0;
+  line-height: 1;
+  border: none;
+  outline: none;
+}
+
+.leaflet-popup-content p {
+  margin: 0;
+  padding: 5px;
+  line-height: 1;
+}
+
+.leaflet-popup-tip {
+  background-color: #333333;
+  opacity: 0.9;
+}

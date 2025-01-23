@@ -5,7 +5,7 @@ import { FaStar, FaCrown } from "react-icons/fa";
 import SaveChip from "@features/SaveChip/SaveChip";
 import { calculatePriceForSelectedDuration } from "@utils/priceCalculator.js";
 import { fetchGeoLocation } from "@store/thunks/location";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const CarCard = ({
   carId,
@@ -20,13 +20,14 @@ const CarCard = ({
   discount,
   pricePerDay,
   features,
+  carImgURL,
+  startDate,
+  endDate,
 }) => {
   const dispatch = useDispatch();
   const [locationName, setLocationName] = useState("");
   const [liked, setLiked] = useState(false);
   const carHeader = `${make} ${model} ${year}`;
-  const startDate = new Date("2024-10-04T14:00:00");
-  const endDate = new Date("2024-10-06T14:00:00");
   const {
     totalDays,
     totalPrice,
@@ -41,12 +42,11 @@ const CarCard = ({
   );
 
   useEffect(() => {
-    // Fetch location name for this specific card
     const fetchLocation = async () => {
       const { latitude, longitude } = location;
       const result = await dispatch(fetchGeoLocation({ latitude, longitude }));
       if (result.payload) {
-        setLocationName(result.payload); // Update location name for this card
+        setLocationName(result.payload);
       }
     };
 
@@ -55,18 +55,18 @@ const CarCard = ({
 
   return (
     <Card
-      className="border-none bg-background/60 dark:bg-default-100/50 max-w-[640px] cursor-pointer"
+      className="border-none bg-background/60 dark:bg-default-100/50 w-full cursor-pointer"
       shadow="sm"
     >
       <CardBody>
-        <div className="relative w-full flex flex-row gap-4 border border-gray-500 shadow-lg rounded-lg hover:bg-cardHover">
-          {/* Image Section*/}
-          <div className="relative ">
+        <div className="relative w-full flex flex-col md:flex-row gap-4 border border-gray-500 shadow-lg rounded-lg hover:bg-cardHover">
+          {/* Image Section */}
+          <div className="relative w-full md:w-1/2">
             <Image
               alt="Car image"
-              className="object-cover rounded-lg shadow-md w-[300px]"
+              className="object-cover rounded-lg shadow-md"
               height={200}
-              src="https://vanguardluxuryrentals.com/wp-content/uploads/2022/06/DSC3954-1.jpg"
+              src={carImgURL}
               width="100%"
             />
           </div>
@@ -74,7 +74,7 @@ const CarCard = ({
           {/* Content Section */}
           <div className="flex flex-col justify-between w-full">
             <div className="flex justify-between items-start">
-              <div className="flex flex-col gap-0">
+              <div className="flex flex-col gap-0 mx-2 px-2">
                 <h3 className="font-semibold text-2xl mt-2">{carHeader}</h3>
                 <div className="flex flex-row gap-2 mt-2">
                   <p className="text-small text-foreground/80">{rating}</p>
@@ -110,7 +110,7 @@ const CarCard = ({
             </div>
 
             {/* Bottom Elements with absolute positioning */}
-            <div className="relative mt-2">
+            <div className="relative mt-[52px] md:mt-[8px]">
               {/* SaveChip aligned to the left at the bottom */}
               {isDiscountApplied && (
                 <div className="absolute bottom-0 left-4 py-1">

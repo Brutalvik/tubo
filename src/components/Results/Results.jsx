@@ -1,11 +1,10 @@
 import React from "react";
 import CarCard from "@features/CarCard/CarCard";
-import cars from "../../dummy/cars";
 
-const Results = () => {
+const Results = ({ cars, startDate, endDate }) => {
   return (
     <>
-      {cars.map(
+      {cars?.map(
         ({
           carId,
           hostId,
@@ -19,8 +18,9 @@ const Results = () => {
           discount,
           pricePerDay,
           features,
+          carImageUrl,
         }) => (
-          <div className="flex flex-col m-2 py-2" key={carId}>
+          <div className="flex flex-col m-2 p-2" key={carId}>
             <CarCard
               carId={carId}
               hostId={hostId}
@@ -34,6 +34,9 @@ const Results = () => {
               discount={discount}
               pricePerDay={pricePerDay}
               features={features}
+              carImgURL={carImageUrl}
+              startDate={startDate}
+              endDate={endDate}
             />
           </div>
         )

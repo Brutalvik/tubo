@@ -7,6 +7,7 @@ import store from "./store/store";
 import App from "./App";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
+import "leaflet/dist/leaflet.css";
 
 const node = document.getElementById("root");
 const root = createRoot(node);
