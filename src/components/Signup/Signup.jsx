@@ -18,6 +18,9 @@ import { openLoginModal } from "@store/reducers/loginModal";
 import { useFormik } from "formik";
 import { doCreateUserWithEmailAndPassword } from "@firebaselocal/auth";
 import AnimatedSuccessCheck from "@features/AnimatedSuccessCheck/AnimatedSuccessCheck";
+import { isEmpty } from "lodash";
+//ValidatioSchema
+import { signupValidationSchema } from "@schemas/signupValidation";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -28,19 +31,35 @@ const Signup = () => {
     dispatch(closeSignupModal());
   };
   //form data
-  const formik = useFormik({
+  const {
+    values,
+    errors,
+    handleSubmit,
+    handleChange,
+    touched,
+    resetForm,
+    handleBlur,
+  } = useFormik({
     initialValues: {
       firstName: "",
       lastName: "",
       dateOfBirth: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
+    validationSchema: signupValidationSchema,
     onSubmit: async (values) => {
+      const confirmedValues = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        password: values.password,
+      };
       setSubmitting(true);
       try {
         // Call the doCreateUserWithEmailAndPassword function
-        await doCreateUserWithEmailAndPassword(values);
+        await doCreateUserWithEmailAndPassword(confirmedValues);
         // Handle success, such as redirecting to a login page or home page
         setUserCreationSuccess(true);
         setTimeout(() => dispatch(closeSignupModal()), 2000);
@@ -50,20 +69,20 @@ const Signup = () => {
         setUserCreationSuccess(false);
       } finally {
         setSubmitting(false); // Stop submitting after completion
-        formik.resetForm();
+        resetForm();
       }
     },
   });
 
-  const [isVisible, setIsVisible] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+    useState(false);
   const isModalOpen = useSelector(({ signup }) => signup.isSignupModalOpen);
 
   const handleLoginModal = () => {
     dispatch(openLoginModal());
     dispatch(closeSignupModal());
   };
-
-  const { values } = formik;
 
   // Reset success state whenever the modal opens
   useEffect(() => {
@@ -100,7 +119,7 @@ const Signup = () => {
                   <form
                     autoComplete="off"
                     className="flex flex-col gap-4 pb-4"
-                    onSubmit={formik.handleSubmit}
+                    onSubmit={handleSubmit}
                   >
                     <Input
                       name="firstName"
@@ -108,7 +127,16 @@ const Signup = () => {
                       type="text"
                       className="w-full"
                       value={values.firstName}
-                      onChange={formik.handleChange}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      isInvalid={
+                        errors.firstName && touched.lastName ? true : false
+                      }
+                      errorMessage={
+                        errors.firstName &&
+                        touched.firstName &&
+                        errors.firstName
+                      }
                     />
                     <Input
                       label="Last Name"
@@ -116,7 +144,14 @@ const Signup = () => {
                       type="text"
                       className="w-full"
                       value={values.lastName}
-                      onChange={formik.handleChange}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      isInvalid={
+                        errors.lastName && touched.lastName ? true : false
+                      }
+                      errorMessage={
+                        errors.lastName && touched.lastName && errors.lastName
+                      }
                     />
 
                     <Input
@@ -125,23 +160,70 @@ const Signup = () => {
                       type="email"
                       className="w-full"
                       value={values.email}
-                      onChange={formik.handleChange}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      isInvalid={errors.email && touched.email ? true : false}
+                      errorMessage={
+                        errors.email && touched.email && errors.email
+                      }
                     />
                     <Input
                       label="Password"
                       name="password"
-                      type={isVisible ? "text" : "password"}
+                      type={isPasswordVisible ? "text" : "password"}
                       value={values.password}
-                      onChange={formik.handleChange}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                       className="w-full"
+                      isInvalid={
+                        errors.password && touched.password ? true : false
+                      }
+                      errorMessage={
+                        errors.password && touched.password && errors.password
+                      }
                       endContent={
                         <button
                           aria-label="toggle password visibility"
                           className="focus:outline-none"
                           type="button"
-                          onClick={() => setIsVisible((prev) => !prev)}
+                          onClick={() => setIsPasswordVisible((prev) => !prev)}
                         >
-                          {isVisible ? (
+                          {isPasswordVisible ? (
+                            <HiEyeOff className="text-2xl text-default-400 pointer-events-none" />
+                          ) : (
+                            <HiEye className="text-2xl text-default-400 pointer-events-none" />
+                          )}
+                        </button>
+                      }
+                    />
+                    <Input
+                      label="Confirm Password"
+                      name="confirmPassword"
+                      type={isConfirmPasswordVisible ? "text" : "password"}
+                      value={values.confirmPassword}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      className="w-full"
+                      isInvalid={
+                        errors.confirmPassword && touched.confirmPassword
+                          ? true
+                          : false
+                      }
+                      errorMessage={
+                        errors.confirmPassword &&
+                        touched.confirmPassword &&
+                        errors.confirmPassword
+                      }
+                      endContent={
+                        <button
+                          aria-label="toggle password visibility"
+                          className="focus:outline-none"
+                          type="button"
+                          onClick={() =>
+                            setIsConfirmPasswordVisible((prev) => !prev)
+                          }
+                        >
+                          {isConfirmPasswordVisible ? (
                             <HiEyeOff className="text-2xl text-default-400 pointer-events-none" />
                           ) : (
                             <HiEye className="text-2xl text-default-400 pointer-events-none" />
@@ -162,6 +244,7 @@ const Signup = () => {
                       type="submit"
                       className="text-center w-full"
                       isLoading={submitting}
+                      disabled={!isEmpty(errors)}
                     >
                       Register
                     </Button>
