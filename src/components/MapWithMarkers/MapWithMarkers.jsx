@@ -4,6 +4,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { calculatePriceForSelectedDuration } from "@utils/priceCalculator";
 import PopupContent from "@components/PopupContent/PopupContent";
+import "./MapWithMarkers.css";
 
 // Fix default marker icon issue in Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -73,8 +74,7 @@ const MapWithMarkers = ({ cars, startDate, endDate }) => {
                 isDiscountApplied
               )}
             >
-              {/* Tooltip for hover interaction */}
-              <Popup direction="top" offset={[30, 5]} opacity={1}>
+              <Popup direction="top" offset={[30, 5]} opacity={2}>
                 <PopupContent
                   car={car}
                   isDiscountApplied={isDiscountApplied}

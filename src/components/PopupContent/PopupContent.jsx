@@ -14,11 +14,14 @@ const PopupContent = ({
 }) => {
   const [liked, setLiked] = useState(false);
 
-  console.log("CAR : ", car.features);
-
   return (
     <div
-      style={{ textAlign: "center", position: "relative", maxWidth: "250px" }}
+      style={{
+        position: "relative",
+        width: "auto",
+        cursor: "pointer",
+        borderRadius: "20px",
+      }}
     >
       {/* Like button */}
       <Button
@@ -44,7 +47,7 @@ const PopupContent = ({
         alt="Car image"
         className="object-cover rounded-lg shadow-md"
         height={150} // Fixed height for consistency
-        width={250} // Fixed width for consistency
+        width={398} // Fixed width for consistency
         src={car.carImageUrl}
       />
 
@@ -55,7 +58,7 @@ const PopupContent = ({
       </div>
 
       {/* Content Section */}
-      <div className="flex flex-row gap-2">
+      <div className="flex flex-row gap-2 border">
         <p className="text-md -text-black">{car.rating}</p>
         <FaStar className="mt-4" size={15} />
         <p className="text-md text-black">[{car.totalTrips} Trips]</p>
@@ -69,7 +72,7 @@ const PopupContent = ({
 
       {/* Features Section */}
       {car.features?.length > 0 && (
-        <p className="text-md text-black py-2 text-left">
+        <p className="text-md text-black text-left">
           <span className="font-bold">Features:</span>{" "}
           {car.features
             .map(
@@ -80,7 +83,7 @@ const PopupContent = ({
       )}
 
       {/* Price Information */}
-      <div className="relative  md:mt-[8px] flex items-center justify-between">
+      <div className="relative mt-2 md:mt-[8px] flex items-center justify-between">
         {/* SaveChip aligned to the left */}
         {isDiscountApplied && (
           <div>
@@ -92,16 +95,17 @@ const PopupContent = ({
         )}
 
         {/* Price aligned to the right */}
-        <p className="text-right text-sm font-bold">
+        <div className="flex flex-row items-center gap-2">
+          <p className="text-sm font-bold">Total:</p>
           {isDiscountApplied ? (
-            <span className="text-green-600">
+            <span className="text-green-600 text-sm font-bold">
               <s className="text-black line-through">CA${totalPrice}</s> CA$
               {discountedPrice}
             </span>
           ) : (
-            `CA$${totalPrice}`
+            <p className="text-sm font-bold">CA${totalPrice}</p>
           )}
-        </p>
+        </div>
       </div>
     </div>
   );
