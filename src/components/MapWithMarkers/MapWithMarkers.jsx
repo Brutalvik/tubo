@@ -3,7 +3,6 @@ import { MapContainer, TileLayer, Marker, Tooltip, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { calculatePriceForSelectedDuration } from "@utils/priceCalculator";
-import TooltipContent from "@components/TooltipContent/TooltipContent";
 import PopupContent from "@components/PopupContent/PopupContent";
 
 // Fix default marker icon issue in Leaflet
