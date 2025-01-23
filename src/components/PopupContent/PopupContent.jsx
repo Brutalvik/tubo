@@ -38,7 +38,7 @@ const PopupContent = ({
         {liked ? (
           <GoHeartFill size={25} color="red" />
         ) : (
-          <GoHeart size={25} color="gray" />
+          <GoHeart size={25} color="white" />
         )}
       </Button>
 
@@ -47,32 +47,31 @@ const PopupContent = ({
         alt="Car image"
         className="object-cover rounded-lg shadow-md"
         height={150} // Fixed height for consistency
-        width={398} // Fixed width for consistency
+        width={498} // Fixed width for consistency
         src={car.carImageUrl}
       />
 
       {/* Car Information */}
       <div className="flex flex-row gap-2">
-        <h1 className="font-bold text-xl mt-2 py-3.5 text-black">{`${car.make} ${car.model}`}</h1>
-        <p className="font-normal text-lg">{car.year}</p>
+        <h1 className="font-bold text-xl px-2 py-2">{`${car.make} ${car.model} ${car.year}`}</h1>
       </div>
 
       {/* Content Section */}
-      <div className="flex flex-row gap-2 border">
-        <p className="text-md -text-black">{car.rating}</p>
-        <FaStar className="mt-4" size={15} />
-        <p className="text-md text-black">[{car.totalTrips} Trips]</p>
+      <div className="flex items-center gap-2 m-0 p-0 box-border">
+        <p className="text-md">{car.rating} Stars</p>
+        <FaStar size={15} className="align-middle" />
+        <p className="text-md">[{car.totalTrips} Trips]</p>
         {car.allStarHost && (
-          <>
-            <FaCrown className="mt-4" size={15} />
-            <p className="text-md text-black">All Star Host</p>
-          </>
+          <div className="flex items-center gap-1">
+            <FaCrown size={15} className="align-middle" />
+            <p className="text-md">All Star Host</p>
+          </div>
         )}
       </div>
 
       {/* Features Section */}
       {car.features?.length > 0 && (
-        <p className="text-md text-black text-left">
+        <p className="text-md text-left">
           <span className="font-bold">Features:</span>{" "}
           {car.features
             .map(
@@ -83,13 +82,18 @@ const PopupContent = ({
       )}
 
       {/* Price Information */}
-      <div className="relative mt-2 md:mt-[8px] flex items-center justify-between">
+      <div className="relative mt-2 md:mt-[8px] flex items-center justify-between p-0">
         {/* SaveChip aligned to the left */}
         {isDiscountApplied && (
           <div>
             <SaveChip
               amount={discountAmount}
-              style={{ backgroundColor: "#d4edda" }}
+              style={{
+                marginTop: "7px",
+                backgroundColor: "#d4edda",
+                padding: "0px 3px",
+                border: "0.5px solid gray",
+              }}
             />
           </div>
         )}
@@ -99,7 +103,10 @@ const PopupContent = ({
           <p className="text-sm font-bold">Total:</p>
           {isDiscountApplied ? (
             <span className="text-green-600 text-sm font-bold">
-              <s className="text-black line-through">CA${totalPrice}</s> CA$
+              <s className="text-white line-through font-light">
+                CA${totalPrice}
+              </s>{" "}
+              CA$
               {discountedPrice}
             </span>
           ) : (

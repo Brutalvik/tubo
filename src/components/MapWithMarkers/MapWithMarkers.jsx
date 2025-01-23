@@ -74,7 +74,12 @@ const MapWithMarkers = ({ cars, startDate, endDate }) => {
                 isDiscountApplied
               )}
             >
-              <Popup direction="top" offset={[30, 5]} opacity={2}>
+              <Popup
+                direction="top"
+                offset={[30, 5]}
+                opacity={2}
+                className="request-popup"
+              >
                 <PopupContent
                   car={car}
                   isDiscountApplied={isDiscountApplied}
