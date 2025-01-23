@@ -9,7 +9,8 @@
       "@pages": ["pages/*"],
       "@firebaselocal": ["firebase/*"],
       "@contexts": ["contexts/*"],
-      "@utils": ["utils/*"]
+      "@utils": ["utils/*"],
+      "@schemas": ["schemas/*"]
     }
   }
 }
