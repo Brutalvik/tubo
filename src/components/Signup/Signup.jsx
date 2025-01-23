@@ -130,7 +130,7 @@ const Signup = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       isInvalid={
-                        errors.firstName && touched.lastName ? true : false
+                        errors.firstName && touched.firstName ? true : false
                       }
                       errorMessage={
                         errors.firstName &&
