@@ -2,6 +2,7 @@ import React from "react";
 import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { calculatePriceForSelectedDuration } from "@utils/priceCalculator";
 
 // Fix default marker icon issue in Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -13,8 +14,8 @@ L.Icon.Default.mergeOptions({
 
 const MapWithMarkers = ({ cars, startDate, endDate }) => {
   // Custom chip-like marker style
-  const createChipIcon = (price, isDiscounted) => {
-    const textColor = isDiscounted ? "lightGreen" : "white";
+  const createChipIcon = (price, isDiscountApplied) => {
+    const textColor = isDiscountApplied ? "lightGreen" : "white";
 
     return L.divIcon({
       className: "custom-chip-marker",
@@ -50,18 +51,21 @@ const MapWithMarkers = ({ cars, startDate, endDate }) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {cars.map((car) => {
-          const isDiscounted = !!car.discount;
-          const discountedPrice = isDiscounted
-            ? (car.pricePerDay * (100 - car.discount)) / 100
-            : null;
+          const { totalPrice, discountedPrice, isDiscountApplied } =
+            calculatePriceForSelectedDuration(
+              startDate,
+              endDate,
+              car.pricePerDay,
+              car.discount
+            );
 
           return (
             <Marker
               key={car.carId}
               position={[car.location.latitude, car.location.longitude]}
               icon={createChipIcon(
-                isDiscounted ? discountedPrice : car.pricePerDay,
-                isDiscounted
+                isDiscountApplied ? discountedPrice : totalPrice,
+                isDiscountApplied
               )}
             >
               {/* Tooltip for hover interaction */}
@@ -71,15 +75,15 @@ const MapWithMarkers = ({ cars, startDate, endDate }) => {
                   <p>Year: {car.year}</p>
                   <p>
                     Price:{" "}
-                    {isDiscounted ? (
+                    {isDiscountApplied ? (
                       <span className="text-green-500">
-                        CA${discountedPrice}{" "}
                         <s className="text-black line-through">
-                          CA${car.pricePerDay}
-                        </s>
+                          CA${totalPrice}
+                        </s>{" "}
+                        CA${discountedPrice}
                       </span>
                     ) : (
-                      `CA$${car.pricePerDay}`
+                      `CA$${totalPrice}`
                     )}
                   </p>
                 </div>
