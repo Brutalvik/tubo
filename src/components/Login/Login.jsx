@@ -16,6 +16,8 @@ import { FaXTwitter } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { openSocialMediaSignupModal } from "@store/reducers/signupModal.js";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import { loginValidationSchema } from "@schemas/loginValidation";
 
 const Login = ({ redirect = false }) => {
   const navigate = useNavigate();
@@ -32,6 +34,45 @@ const Login = ({ redirect = false }) => {
       dispatch(closeLoginModal());
     }
   };
+
+  const {
+    values,
+    errors,
+    handleSubmit,
+    handleChange,
+    touched,
+    resetForm,
+    handleBlur,
+  } = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: loginValidationSchema,
+    onSubmit: async (values) => {
+      const confirmedValues = {
+        email: values.email,
+        password: values.password,
+      };
+      console.log("LOGIN: ", confirmedValues);
+      resetForm();
+      handleModalClose();
+      // try {
+      //   // Call the doCreateUserWithEmailAndPassword function
+      //   await doCreateUserWithEmailAndPassword(confirmedValues);
+      //   // Handle success, such as redirecting to a login page or home page
+      //   setUserCreationSuccess(true);
+      //   setTimeout(() => dispatch(closeSignupModal()), 2000);
+      // } catch (error) {
+      //   // setErrorMessage(error.message); // Display error message
+      //   console.error("Error signing up:", error.message);
+      //   setUserCreationSuccess(false);
+      // } finally {
+      //   setSubmitting(false); // Stop submitting after completion
+      //   resetForm();
+      // }
+    },
+  });
 
   const handleSocialMediaModal = () => {
     dispatch(openSocialMediaSignupModal());
@@ -61,43 +102,65 @@ const Login = ({ redirect = false }) => {
               </ModalHeader>
 
               <ModalBody>
-                <Input label="Email" type="email" className="w-full" />
-                <Input
-                  className="w-full"
-                  endContent={
-                    <button
-                      aria-label="toggle password visibility"
-                      className="focus:outline-none"
-                      type="button"
-                      onClick={() => setIsVisible((prev) => !prev)}
+                <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+                  <Input
+                    label="Email"
+                    type="email"
+                    className="w-full"
+                    name="email"
+                    value={values.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    isInvalid={errors.email && touched.email ? true : false}
+                    errorMessage={errors.email && touched.email && errors.email}
+                  />
+                  <Input
+                    className="w-full"
+                    name="password"
+                    value={values.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    isInvalid={
+                      errors.password && touched.password ? true : false
+                    }
+                    errorMessage={
+                      errors.password && touched.password && errors.password
+                    }
+                    endContent={
+                      <button
+                        aria-label="toggle password visibility"
+                        className="focus:outline-none"
+                        type="button"
+                        onClick={() => setIsVisible((prev) => !prev)}
+                      >
+                        {isVisible ? (
+                          <HiEyeOff className="text-2xl text-default-400 pointer-events-none" />
+                        ) : (
+                          <HiEye className="text-2xl text-default-400 pointer-events-none" />
+                        )}
+                      </button>
+                    }
+                    label="Password"
+                    type={isVisible ? "text" : "password"}
+                  />
+
+                  <div className="flex justify-between w-full">
+                    <p className="text-right flex items-center gap-x-2 hover:underline cursor-pointer">
+                      Forgot password ?
+                    </p>
+
+                    <p
+                      onClick={handleSocialMediaModal}
+                      className="text-right flex items-center gap-x-2 hover:underline cursor-pointer"
                     >
-                      {isVisible ? (
-                        <HiEyeOff className="text-2xl text-default-400 pointer-events-none" />
-                      ) : (
-                        <HiEye className="text-2xl text-default-400 pointer-events-none" />
-                      )}
-                    </button>
-                  }
-                  label="Password"
-                  type={isVisible ? "text" : "password"}
-                />
+                      Join the Fun!
+                    </p>
+                  </div>
 
-                <div className="flex justify-between w-full">
-                  <p className="text-right flex items-center gap-x-2 hover:underline cursor-pointer">
-                    Forgot password ?
-                  </p>
-
-                  <p
-                    onClick={handleSocialMediaModal}
-                    className="text-right flex items-center gap-x-2 hover:underline cursor-pointer"
-                  >
-                    Join the Fun!
-                  </p>
-                </div>
-
-                <Button color="primary" onPress={handleModalClose}>
-                  Jump back in !
-                </Button>
+                  <Button color="primary" type="submit">
+                    Jump back in !
+                  </Button>
+                </form>
               </ModalBody>
 
               <ModalFooter className="flex flex-col justify-center items-center">
