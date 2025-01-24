@@ -18,7 +18,7 @@ import { openLoginModal } from "@store/reducers/loginModal";
 import { useFormik } from "formik";
 import { doCreateUserWithEmailAndPassword } from "@firebaselocal/auth";
 import AnimatedSuccessCheck from "@features/AnimatedSuccessCheck/AnimatedSuccessCheck";
-import { isEmpty } from "lodash";
+
 //ValidatioSchema
 import { signupValidationSchema } from "@schemas/signupValidation";
 
@@ -244,7 +244,6 @@ const Signup = () => {
                       type="submit"
                       className="text-center w-full"
                       isLoading={submitting}
-                      disabled={!isEmpty(errors)}
                     >
                       Register
                     </Button>
