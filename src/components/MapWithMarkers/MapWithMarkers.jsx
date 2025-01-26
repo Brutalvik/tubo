@@ -33,7 +33,9 @@ const MapWithMarkers = ({ cars, startDate, endDate }) => {
   backdrop-filter: blur(4px); /* Glass blur effect */
   -webkit-backdrop-filter: blur(4px); /* Safari support */
   border: 1px solid rgba(255, 255, 255, 0.4); /* Transparent border for glass look */
-  width: 70px;
+  width: 85px;
+  text-align: center;
+
       ">
         CA$${price}
       </div>`,

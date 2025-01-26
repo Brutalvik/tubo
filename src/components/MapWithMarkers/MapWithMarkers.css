@@ -1,3 +1,7 @@
+.custom-chip-marker:hover {
+  color: #000 !important;
+}
+
 .popup {
   background-color: black; /* Default black background */
   color: white; /* White text for contrast */
