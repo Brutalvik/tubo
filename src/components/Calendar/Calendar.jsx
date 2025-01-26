@@ -54,14 +54,14 @@ const Calendar = () => {
       dispatch(fetchCars({ latitude, longitude }));
       Navigate("/search-results");
 
-      // dispatch(
-      //   setSearchCriteria({
-      //     ...values,
-      //     address: values.address[0],
-      //     location: values.address[0]?.name || "",
-      //     coordinates: serializedCoordinates, // Only pass lat and lng
-      //   })
-      // ); // Update search state with form values
+      dispatch(
+        setSearchCriteria({
+          ...values,
+          address: values.address[0],
+          location: values.address[0]?.name || "",
+          coordinates: { latitude, longitude }, // Only pass lat and lng
+        })
+      ); // Update search state with form values
     },
   });
 
