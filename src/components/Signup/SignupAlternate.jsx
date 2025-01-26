@@ -11,7 +11,7 @@ import {
   closeSocialMediaSignupModal,
   openSignupModal,
 } from "@store/reducers/signupModal.js";
-import { FaFacebook, FaInstagram, FaGoogle } from "react-icons/fa";
+import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { openLoginModal } from "@store/reducers/loginModal.js";
 import { MdOutlineMailOutline } from "react-icons/md";
@@ -64,10 +64,6 @@ const SignupAlternate = () => {
                 <Button>
                   Dive in with Facebook{" "}
                   <FaFacebook className="ml-2" size={20} />
-                </Button>
-                <Button>
-                  Snap In with Instagram{" "}
-                  <FaInstagram className="ml-2" size={20} />
                 </Button>
                 <Button>
                   Connect with <FaXTwitter className="ml-2" size={20} />
