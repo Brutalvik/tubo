@@ -4,6 +4,7 @@ import modalReducer from "@store/reducers/modal.js";
 import signupReducer from "@store/reducers/signupModal.js";
 import searchCriteriaReducer from "@store/reducers/searchCriteria";
 import locationReducer from "@store/reducers/location";
+import carsReducer from "@store/reducers/cars";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     signup: signupReducer,
     searchCriteria: searchCriteriaReducer,
     location: locationReducer,
+    cars: carsReducer,
   }, // Add reducers here
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

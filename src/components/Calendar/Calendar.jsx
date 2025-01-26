@@ -1,13 +1,16 @@
-import React, { useRef, useState, useMemo } from "react";
+import React, { useRef, useState, useMemo, useEffect } from "react";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
-import { Button, Input } from "@heroui/react";
+import { Button, Input, Slider } from "@heroui/react";
 import { useFormik } from "formik";
 import { useSelector, useDispatch } from "react-redux";
 import { setSearchCriteria } from "@store/reducers/searchCriteria";
 import moment from "moment";
+import { fetchCars } from "@store/thunks/fetchCars";
+import { useNavigate } from "react-router-dom";
 
 const Calendar = () => {
   const dispatch = useDispatch();
+  const Navigate = useNavigate();
   const { searchAddress } = useSelector(({ searchCriteria }) => searchCriteria);
 
   const libraries = useMemo(() => ["places"], []);
@@ -24,7 +27,7 @@ const Calendar = () => {
     initialValues: {
       location: searchAddress,
       address: searchAddress,
-      coordinates: { lat: null, lng: null },
+      coordinates: { latitude: null, longitude: null },
       startDate: moment().set({
         hour: 10,
         minute: 0,
@@ -40,19 +43,25 @@ const Calendar = () => {
       console.log("values : ", values);
 
       // Serialize the coordinates to plain lat/lng object
-      const serializedCoordinates = {
-        lat: values.coordinates?.lat,
-        lng: values.coordinates?.lng,
+      const { latitude, longitude } = {
+        latitude: parseFloat(values.coordinates?.latitude),
+        longitude: parseFloat(values.coordinates?.longitude),
       };
 
-      dispatch(
-        setSearchCriteria({
-          ...values,
-          address: values.address[0],
-          location: values.address[0]?.name || "",
-          coordinates: serializedCoordinates, // Only pass lat and lng
-        })
-      ); // Update search state with form values
+      console.log("latitude : ", latitude);
+      console.log("longitude : ", longitude);
+
+      dispatch(fetchCars({ latitude, longitude }));
+      Navigate("/search-results");
+
+      // dispatch(
+      //   setSearchCriteria({
+      //     ...values,
+      //     address: values.address[0],
+      //     location: values.address[0]?.name || "",
+      //     coordinates: serializedCoordinates, // Only pass lat and lng
+      //   })
+      // ); // Update search state with form values
     },
   });
 
@@ -61,20 +70,18 @@ const Calendar = () => {
 
     // Extract address components
     const addressComponents = address[0]?.address_components || "";
-    const longName = addressComponents[0].long_name || "";
-    const shortName = addressComponents[1].short_name || "";
-    const countryShortName = addressComponents[2].short_name || "";
+    const longName = addressComponents[0]?.long_name || "";
+    const shortName = addressComponents[1]?.short_name || "";
+    const countryShortName = addressComponents[2]?.short_name || "";
 
     // Combine the extracted data to show in the search bar
     const formattedLocation = `${longName}, ${shortName}, ${countryShortName}`;
     const location = address[0]?.geometry?.location;
 
-    const lat = location ? location.lat() : null; // Extract latitude
-    const lng = location ? location.lng() : null; // Extract longitude
+    const latitude = location ? location.lat() : null; // Extract latitude
+    const longitude = location ? location.lng() : null; // Extract longitude
 
-    const serializedCoordinates = { lat, lng }; // Only store lat and lng as plain objects
-
-    console.log("SER : ", serializedCoordinates);
+    const serializedCoordinates = { latitude, longitude }; // Only store lat and lng as plain objects
 
     // Set the values in Formik
     formik.setFieldValue("location", formattedLocation);
@@ -121,7 +128,9 @@ const Calendar = () => {
               labelPlacement="inside"
               type="datetime-local"
               value={moment(formik.values.startDate).format("YYYY-MM-DDTHH:mm")}
-              onChange={(date) => formik.setFieldValue("startDate", date)}
+              onChange={(e) =>
+                formik.setFieldValue("startDate", moment(e.target.value))
+              }
               className="rounded-lg w-full sm:w-auto text-lg sm:text-base" // Adjust input width here
               min={moment().format("YYYY-MM-DDTHH:mm")}
             />
@@ -130,9 +139,11 @@ const Calendar = () => {
               labelPlacement="inside"
               type="datetime-local"
               value={moment(formik.values.endDate).format("YYYY-MM-DDTHH:mm")}
-              onChange={(date) => formik.setFieldValue("endDate", date)}
+              onChange={(e) =>
+                formik.setFieldValue("endDate", moment(e.target.value))
+              }
               className="rounded-lg w-full sm:w-auto text-lg sm:text-base mt-2 sm:mt-0" // Adjust input width here
-              max={moment().add(1, "year").format("YYYY-MM-DDTHH:mm")}
+              min={moment().add(1, "days").format("YYYY-MM-DDTHH:mm")}
             />
           </div>
         </div>
