@@ -86,7 +86,7 @@ const Calendar = () => {
     <div className="w-full sm:w-[500px] mx-auto p-4">
       <form
         onSubmit={formik.handleSubmit}
-        className="bg-white/20 backdrop-blur-sm border border-300 rounded-lg p-4 flex flex-col gap-4 shadow-lg"
+        className="bg-white/20 backdrop-blur-sm border border-300 rounded-lg p-2 flex flex-col gap-4 shadow-lg"
       >
         {/* Input for location */}
         <div className="w-full">
@@ -115,14 +115,14 @@ const Calendar = () => {
 
         {/* Date range picker */}
         <div className="w-full flex flex-col sm:flex-row sm:gap-4">
-          <div className="flex flex-col sm:flex-row sm:gap-2 w-full items-center">
+          <div className="flex flex-col justify-around sm:flex-row sm:gap-2 w-full">
             <Input
               label="From"
               labelPlacement="inside"
               type="datetime-local"
               value={moment(formik.values.startDate).format("YYYY-MM-DDTHH:mm")}
               onChange={(date) => formik.setFieldValue("startDate", date)}
-              className="rounded-lg w-full sm:w-auto text-lg sm:text-base py-2" // Adjust input width here
+              className="rounded-lg w-full sm:w-auto text-lg sm:text-base" // Adjust input width here
               min={moment().format("YYYY-MM-DDTHH:mm")}
             />
             <Input
