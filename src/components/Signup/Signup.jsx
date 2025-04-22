@@ -76,6 +76,7 @@ const Signup = () => {
         });
 
         setUserCreationSuccess(false);
+        resetForm();
       } finally {
         setSubmitting(false); // Stop submitting after completion
         resetForm();
@@ -100,6 +101,21 @@ const Signup = () => {
     }
   }, [isModalOpen]);
 
+  useEffect(() => {
+    if (signupError.isError) {
+      const timer = setTimeout(() => {
+        setSignupError({ isError: false, errorMessage: "" });
+      }, 3000);
+
+      // Clear the timeout if the component unmounts or if the error changes
+      return () => {
+        clearTimeout(timer);
+        handleModalClose();
+        handleLoginModal();
+      };
+    }
+  }, [signupError]);
+
   return (
     <Modal
       isOpen={isModalOpen}
@@ -119,7 +135,6 @@ const Signup = () => {
               handleModalClose();
               handleLoginModal();
             }}
-            // isLoading={submitting}
           >
             Try logging in
           </Button>
