@@ -25,6 +25,8 @@ const Login = ({ redirect = false }) => {
   const isModalOpen = useSelector(({ login }) => login.isOpen);
 
   const dispatch = useDispatch();
+  const store = useSelector((app) => app);
+  console.log("APP : ", store);
 
   const handleModalClose = () => {
     console.log("login123");
@@ -34,7 +36,7 @@ const Login = ({ redirect = false }) => {
     }
 
     dispatch(closeLoginModal());
-    navigate("/", { replace: true }); // Navigate programmatically to the home page
+    navigate("/host-dashboard", { replace: true }); // Navigate programmatically to the home page
   };
 
   const {
@@ -58,6 +60,7 @@ const Login = ({ redirect = false }) => {
       };
       resetForm();
       handleModalClose();
+
       // try {
       //   // Call the doCreateUserWithEmailAndPassword function
       //   await doCreateUserWithEmailAndPassword(confirmedValues);

@@ -19,13 +19,17 @@ import { useFormik } from "formik";
 import { doCreateUserWithEmailAndPassword } from "@firebaselocal/auth";
 import AnimatedSuccessCheck from "@features/AnimatedSuccessCheck/AnimatedSuccessCheck";
 
-//ValidatioSchema
+//ValidationSchema
 import { signupValidationSchema } from "@schemas/signupValidation";
 
 const Signup = () => {
   const dispatch = useDispatch();
   const [submitting, setSubmitting] = useState(false);
   const [userCreationSuccess, setUserCreationSuccess] = useState(false);
+  const [signupError, setSignupError] = useState({
+    isError: false,
+    errorMessage: "",
+  });
 
   const handleModalClose = () => {
     dispatch(closeSignupModal());
@@ -50,6 +54,7 @@ const Signup = () => {
     },
     validationSchema: signupValidationSchema,
     onSubmit: async (values) => {
+      setSignupError({ isError: false, errorMessage: "" });
       const confirmedValues = {
         firstName: values.firstName,
         lastName: values.lastName,
@@ -65,6 +70,7 @@ const Signup = () => {
         setTimeout(() => dispatch(closeSignupModal()), 2000);
       } catch (error) {
         // setErrorMessage(error.message); // Display error message
+        setSignupError({ isError: true, errorMessage: error.message });
         console.error("Error signing up:", error.message);
         setUserCreationSuccess(false);
       } finally {
@@ -98,171 +104,188 @@ const Signup = () => {
       onClose={handleModalClose}
       aria-labelledby="modal-title"
     >
-      <ModalContent>
-        {() => (
-          <>
-            <ModalHeader className="flex items-center justify-center gap-4 text-center">
-              <FaUserCircle className="text-2xl" />
+      {signupError.isError ? (
+        <ModalContent>
+          <ModalHeader>Signed up already ?</ModalHeader>
+          <ModalBody>{signupError.errorMessage}</ModalBody>
+          <Button
+            color="primary"
+            type="submit"
+            className="text-center w-full"
+            // isLoading={submitting}
+          >
+            Try logging in
+          </Button>
+        </ModalContent>
+      ) : (
+        <ModalContent>
+          {() => (
+            <>
+              <ModalHeader className="flex items-center justify-center gap-4 text-center">
+                <FaUserCircle className="text-2xl" />
+                {userCreationSuccess ? (
+                  <h1 className="text-xl font-bold">
+                    Great ! Start your Engines..
+                  </h1>
+                ) : (
+                  <h1 className="text-xl font-bold">Sign up</h1>
+                )}
+              </ModalHeader>
               {userCreationSuccess ? (
-                <h1 className="text-xl font-bold">
-                  Great ! Start your Engines..
-                </h1>
+                <AnimatedSuccessCheck />
               ) : (
-                <h1 className="text-xl font-bold">Sign up</h1>
-              )}
-            </ModalHeader>
-            {userCreationSuccess ? (
-              <AnimatedSuccessCheck />
-            ) : (
-              <>
-                <ModalBody>
-                  <form
-                    autoComplete="off"
-                    className="flex flex-col gap-4 pb-4"
-                    onSubmit={handleSubmit}
-                  >
-                    <Input
-                      name="firstName"
-                      label="First Name"
-                      type="text"
-                      className="w-full"
-                      value={values.firstName}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      isInvalid={
-                        errors.firstName && touched.firstName ? true : false
-                      }
-                      errorMessage={
-                        errors.firstName &&
-                        touched.firstName &&
-                        errors.firstName
-                      }
-                    />
-                    <Input
-                      label="Last Name"
-                      name="lastName"
-                      type="text"
-                      className="w-full"
-                      value={values.lastName}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      isInvalid={
-                        errors.lastName && touched.lastName ? true : false
-                      }
-                      errorMessage={
-                        errors.lastName && touched.lastName && errors.lastName
-                      }
-                    />
-
-                    <Input
-                      label="Email"
-                      name="email"
-                      type="email"
-                      className="w-full"
-                      value={values.email}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      isInvalid={errors.email && touched.email ? true : false}
-                      errorMessage={
-                        errors.email && touched.email && errors.email
-                      }
-                    />
-                    <Input
-                      label="Password"
-                      name="password"
-                      type={isPasswordVisible ? "text" : "password"}
-                      value={values.password}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      className="w-full"
-                      isInvalid={
-                        errors.password && touched.password ? true : false
-                      }
-                      errorMessage={
-                        errors.password && touched.password && errors.password
-                      }
-                      endContent={
-                        <button
-                          aria-label="toggle password visibility"
-                          className="focus:outline-none"
-                          type="button"
-                          onClick={() => setIsPasswordVisible((prev) => !prev)}
-                        >
-                          {isPasswordVisible ? (
-                            <HiEyeOff className="text-2xl text-default-400 pointer-events-none" />
-                          ) : (
-                            <HiEye className="text-2xl text-default-400 pointer-events-none" />
-                          )}
-                        </button>
-                      }
-                    />
-                    <Input
-                      label="Confirm Password"
-                      name="confirmPassword"
-                      type={isConfirmPasswordVisible ? "text" : "password"}
-                      value={values.confirmPassword}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      className="w-full"
-                      isInvalid={
-                        errors.confirmPassword && touched.confirmPassword
-                          ? true
-                          : false
-                      }
-                      errorMessage={
-                        errors.confirmPassword &&
-                        touched.confirmPassword &&
-                        errors.confirmPassword
-                      }
-                      endContent={
-                        <button
-                          aria-label="toggle password visibility"
-                          className="focus:outline-none"
-                          type="button"
-                          onClick={() =>
-                            setIsConfirmPasswordVisible((prev) => !prev)
-                          }
-                        >
-                          {isConfirmPasswordVisible ? (
-                            <HiEyeOff className="text-2xl text-default-400 pointer-events-none" />
-                          ) : (
-                            <HiEye className="text-2xl text-default-400 pointer-events-none" />
-                          )}
-                        </button>
-                      }
-                    />
-                    <div className="flex justify-between w-full">
-                      <p
-                        onClick={handleLoginModal}
-                        className="text-right flex items-center gap-x-2 hover:underline cursor-pointer"
-                      >
-                        Already a Tubo member ?
-                      </p>
-                    </div>
-                    <Button
-                      color="primary"
-                      type="submit"
-                      className="text-center w-full"
-                      isLoading={submitting}
+                <>
+                  <ModalBody>
+                    <form
+                      autoComplete="off"
+                      className="flex flex-col gap-4 pb-4"
+                      onSubmit={handleSubmit}
                     >
-                      Register
-                    </Button>
-                  </form>
-                </ModalBody>
+                      <Input
+                        name="firstName"
+                        label="First Name"
+                        type="text"
+                        className="w-full"
+                        value={values.firstName}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        isInvalid={
+                          errors.firstName && touched.firstName ? true : false
+                        }
+                        errorMessage={
+                          errors.firstName &&
+                          touched.firstName &&
+                          errors.firstName
+                        }
+                      />
+                      <Input
+                        label="Last Name"
+                        name="lastName"
+                        type="text"
+                        className="w-full"
+                        value={values.lastName}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        isInvalid={
+                          errors.lastName && touched.lastName ? true : false
+                        }
+                        errorMessage={
+                          errors.lastName && touched.lastName && errors.lastName
+                        }
+                      />
 
-                <ModalFooter className="flex flex-col justify-center items-center">
-                  <p className="mb-4">Alternate Access</p>
-                  <div className="flex gap-4 mt-4">
-                    <FaFacebook size={25} className="cursor-pointer" />
-                    <FaInstagram size={25} className="cursor-pointer" />
-                    <FaXTwitter size={25} className="cursor-pointer" />
-                  </div>
-                </ModalFooter>
-              </>
-            )}
-          </>
-        )}
-      </ModalContent>
+                      <Input
+                        label="Email"
+                        name="email"
+                        type="email"
+                        className="w-full"
+                        value={values.email}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        isInvalid={errors.email && touched.email ? true : false}
+                        errorMessage={
+                          errors.email && touched.email && errors.email
+                        }
+                      />
+                      <Input
+                        label="Password"
+                        name="password"
+                        type={isPasswordVisible ? "text" : "password"}
+                        value={values.password}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        className="w-full"
+                        isInvalid={
+                          errors.password && touched.password ? true : false
+                        }
+                        errorMessage={
+                          errors.password && touched.password && errors.password
+                        }
+                        endContent={
+                          <button
+                            aria-label="toggle password visibility"
+                            className="focus:outline-none"
+                            type="button"
+                            onClick={() =>
+                              setIsPasswordVisible((prev) => !prev)
+                            }
+                          >
+                            {isPasswordVisible ? (
+                              <HiEyeOff className="text-2xl text-default-400 pointer-events-none" />
+                            ) : (
+                              <HiEye className="text-2xl text-default-400 pointer-events-none" />
+                            )}
+                          </button>
+                        }
+                      />
+                      <Input
+                        label="Confirm Password"
+                        name="confirmPassword"
+                        type={isConfirmPasswordVisible ? "text" : "password"}
+                        value={values.confirmPassword}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        className="w-full"
+                        isInvalid={
+                          errors.confirmPassword && touched.confirmPassword
+                            ? true
+                            : false
+                        }
+                        errorMessage={
+                          errors.confirmPassword &&
+                          touched.confirmPassword &&
+                          errors.confirmPassword
+                        }
+                        endContent={
+                          <button
+                            aria-label="toggle password visibility"
+                            className="focus:outline-none"
+                            type="button"
+                            onClick={() =>
+                              setIsConfirmPasswordVisible((prev) => !prev)
+                            }
+                          >
+                            {isConfirmPasswordVisible ? (
+                              <HiEyeOff className="text-2xl text-default-400 pointer-events-none" />
+                            ) : (
+                              <HiEye className="text-2xl text-default-400 pointer-events-none" />
+                            )}
+                          </button>
+                        }
+                      />
+                      <div className="flex justify-between w-full">
+                        <p
+                          onClick={handleLoginModal}
+                          className="text-right flex items-center gap-x-2 hover:underline cursor-pointer"
+                        >
+                          Already a Tubo member ?
+                        </p>
+                      </div>
+                      <Button
+                        color="primary"
+                        type="submit"
+                        className="text-center w-full"
+                        isLoading={submitting}
+                      >
+                        Register
+                      </Button>
+                    </form>
+                  </ModalBody>
+
+                  <ModalFooter className="flex flex-col justify-center items-center">
+                    <p className="mb-4">Alternate Access</p>
+                    <div className="flex gap-4 mt-4">
+                      <FaFacebook size={25} className="cursor-pointer" />
+                      <FaInstagram size={25} className="cursor-pointer" />
+                      <FaXTwitter size={25} className="cursor-pointer" />
+                    </div>
+                  </ModalFooter>
+                </>
+              )}
+            </>
+          )}
+        </ModalContent>
+      )}
     </Modal>
   );
 };

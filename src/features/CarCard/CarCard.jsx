@@ -90,6 +90,13 @@ const CarCard = ({
                       </p>
                     </>
                   )}
+                  <div>
+                    {features.map((feature) => (
+                      <p className="text-small" key={feature}>
+                        {feature}
+                      </p>
+                    ))}
+                  </div>
                 </div>
 
                 <h1 className="text-large font-medium mt-2">
