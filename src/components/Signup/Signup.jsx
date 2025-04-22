@@ -70,8 +70,11 @@ const Signup = () => {
         setTimeout(() => dispatch(closeSignupModal()), 2000);
       } catch (error) {
         // setErrorMessage(error.message); // Display error message
-        setSignupError({ isError: true, errorMessage: error.message });
-        console.error("Error signing up:", error.message);
+        setSignupError({
+          isError: true,
+          errorMessage: "This email is already in use",
+        });
+
         setUserCreationSuccess(false);
       } finally {
         setSubmitting(false); // Stop submitting after completion
@@ -112,6 +115,10 @@ const Signup = () => {
             color="primary"
             type="submit"
             className="text-center w-full"
+            onPress={() => {
+              handleModalClose();
+              handleLoginModal();
+            }}
             // isLoading={submitting}
           >
             Try logging in

@@ -21,13 +21,15 @@ export const doCreateUserWithEmailAndPassword = async (userCredential) => {
     const user = auth?.currentUser;
     if (user) {
       console.log(user);
-      await setDoc(doc(db, "Users", user?.uid), {
+      const response = await setDoc(doc(db, "Users", user?.uid), {
         email: user.email,
         firstName: userCredential.firstName,
         uid: user.uid,
         lastName: userCredential.lastName,
         profilePicURL: userCredential.profilePicURL ?? "",
       });
+
+      console.log("RESPONSE", response);
     }
   } catch (error) {
     // Check for the specific error message
