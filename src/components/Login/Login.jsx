@@ -18,6 +18,7 @@ import { openSocialMediaSignupModal } from "@store/reducers/signupModal.js";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { loginValidationSchema } from "@schemas/loginValidation";
+import { doSignInWithEmailAndPassword } from "@firebaselocal/auth";
 
 const Login = ({ redirect = false }) => {
   const navigate = useNavigate();
@@ -25,18 +26,17 @@ const Login = ({ redirect = false }) => {
   const isModalOpen = useSelector(({ login }) => login.isOpen);
 
   const dispatch = useDispatch();
-  const store = useSelector((app) => app);
-  console.log("APP : ", store);
 
+  const [userLoginState, setUserLoginState] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const handleModalClose = () => {
-    console.log("login123");
     if (!redirect) {
       dispatch(closeLoginModal());
       return;
     }
 
     dispatch(closeLoginModal());
-    navigate("/host-dashboard", { replace: true }); // Navigate programmatically to the home page
+    
   };
 
   const {
@@ -54,27 +54,32 @@ const Login = ({ redirect = false }) => {
     },
     validationSchema: loginValidationSchema,
     onSubmit: async (values) => {
+      resetForm();
       const confirmedValues = {
         email: values.email,
         password: values.password,
       };
-      resetForm();
-      handleModalClose();
 
-      // try {
-      //   // Call the doCreateUserWithEmailAndPassword function
-      //   await doCreateUserWithEmailAndPassword(confirmedValues);
-      //   // Handle success, such as redirecting to a login page or home page
-      //   setUserCreationSuccess(true);
-      //   setTimeout(() => dispatch(closeSignupModal()), 2000);
-      // } catch (error) {
-      //   // setErrorMessage(error.message); // Display error message
-      //   console.error("Error signing up:", error.message);
-      //   setUserCreationSuccess(false);
-      // } finally {
-      //   setSubmitting(false); // Stop submitting after completion
-      //   resetForm();
-      // }
+      console.log("Confirmed Values: ", confirmedValues);
+
+
+      try {
+        // Call the doCreateUserWithEmailAndPassword function
+        const user = await doSignInWithEmailAndPassword(confirmedValues);
+        console.log("User: ", user);
+        // Handle success, such as redirecting to a login page or home page
+        setUserLoginState(true);
+        handleModalClose(); // Close the modal after successful login
+        navigate("/host-dashboard", { replace: true }); // Navigate programmatically to the home page
+      } catch (error) {
+        // setErrorMessage(error.message); // Display error message
+        console.error("Error logging in: ", error);
+        setUserLoginState(false);
+        resetForm();
+      } finally {
+        setSubmitting(false); // Stop submitting after completion
+        resetForm();
+      }
     },
   });
 
@@ -162,7 +167,7 @@ const Login = ({ redirect = false }) => {
                     </p>
                   </div>
 
-                  <Button color="primary" type="submit">
+                  <Button color="primary" type="submit" isLoading={submitting}>
                     Jump back in !
                   </Button>
                 </form>

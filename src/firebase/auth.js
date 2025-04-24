@@ -52,7 +52,32 @@ export const doSignInWithGoogle = async () => {
 };
 
 export const doSignInWithEmailAndPassword = async (user) => {
-  signInWithEmailAndPassword(auth, user?.email, user?.password);
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      user?.email,
+      user?.password
+    );
+ 
+    // Check if the user is verified
+    // if (!userCredential.user.emailVerified) {
+    //   console.error("Error: Email not verified. Please verify your email.");
+    //   throw new Error("Email not verified");
+    // }
+
+    // You can now use the authenticated user for further actions, like navigating to another page or storing user info
+    return userCredential.user;
+  } catch (error) {
+    // Handle specific errors
+    if (error.code === "auth/user-not-found") {
+      console.error("Error: User not found. Please check the email.");
+    } else if (error.code === "auth/wrong-password") {
+      console.error("Error: Wrong password. Please try again.");
+    } else {
+      console.error("Error signing in:", error.message);
+    }
+    throw error; // Re-throw if you want to catch the error elsewhere
+  }
 };
 
 export const doSignOut = () => {
